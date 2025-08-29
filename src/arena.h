@@ -6,6 +6,8 @@
 #define ARENA_STATUS_FREE 0
 #define ARENA_STATUS_USED 1
 #define ARENA_TAG_NONE -1
+#define ARENA_FAILURE 0
+#define ARENA_SUCCESS 1
 
 typedef struct arena_block_s {
     size_t idx;
@@ -24,18 +26,22 @@ typedef struct {
     size_t maxBlocks;
 } Arena;
 
+/* Init/deinit/helpers */
 Arena *arena_init(size_t size, size_t blockCount);
 int arena_destroy(Arena *arena);
+ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block);
+ArenaBlock *arena_get_block(Arena *arena, void *p);
 
+/* Standard memory management functions */
 void *arena_calloc(Arena *arena, size_t size, size_t num);
 void *arena_malloc(Arena *arena, size_t size);
 void *arena_realloc(Arena *arena, void *p, size_t n, size_t size);
-void arena_free(Arena *arena, void *p);
+int arena_free(Arena *arena, void *p);
 
-/*
-int arena_compact(Arena *arena);
-int arena_collect(Arena *arena);
-int arena_collect_tag(Arena *arena, int tag);
-*/
+/* Tagging stuff */
+int arena_get_tag(Arena *arena, void *p);
+int arena_set_tag(Arena *arena, void *p, int tag);
+void arena_collect_tag(Arena *arena, int tag);
+
 
 #endif

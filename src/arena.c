@@ -57,6 +57,20 @@ int arena_destroy(Arena *arena) {
     return 1;
 }
 
+ArenaBlock *arena_get_block(Arena *arena, void *p) {
+    ArenaBlock *current = arena->head;
+    size_t idx = (size_t)((char *)p - (char *)arena->mem);
+
+    while (current) {
+        if (current->idx == idx) {
+            return current;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+
 /**
  * @brief Allocates memory for an array of elements, initializing all bytes to zero.
  *
@@ -73,10 +87,10 @@ void *arena_calloc(Arena *arena, size_t num, size_t size) {
 
 void *arena_malloc(Arena *arena, size_t size) {
     ArenaBlock *current = arena->head;
-    while (current != NULL) {
+    while (current) {
         if (current->status == ARENA_STATUS_FREE && current->size >= size) {
-            // Create another block in between
             if (current->size > size) {
+                // Create another block in between
                 ArenaBlock *oldNext = current->next;
                 ArenaBlock *newNext;
                 if (!(newNext = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
@@ -106,36 +120,73 @@ void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
     return NULL;
 }
 
-void arena_free(Arena *arena, void *p) {
-    ArenaBlock *current = arena->head;
-    ArenaBlock *tmp = NULL;
-    size_t idx = (size_t)((char *)p - (char *)arena->mem);
-    while (current != NULL) {
-        if (current->idx == idx) {
-            current->status = ARENA_STATUS_FREE;
+/**
+ * @brief Free the given block of memory and return the next one
+ */
+ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
+    ArenaBlock *tmp;
+    block->status = ARENA_STATUS_FREE;
+    block->tag = ARENA_TAG_NONE;
 
-            if (current->next != NULL && current->next->status == ARENA_STATUS_FREE) {
-                current->size += current->next->size;
+    if (block->next != NULL && block->next->status == ARENA_STATUS_FREE) {
+        block->size += block->next->size;
+        tmp = block->next;
+        block->next = block->next->next;
+        block->next->prev = block;
+        free(tmp);
+    }
 
-                tmp = current->next;
-                current->next = current->next->next;
-                current->next->prev = current;
-                free(tmp);
-            }
+    if (block->prev != NULL && block->prev->status == ARENA_STATUS_FREE) {
+        block->idx = block->prev->idx;
+        block->size += block->prev->size;
 
-            if (current->prev != NULL && current->prev->status == ARENA_STATUS_FREE) {
-                current->idx = current->prev->idx;
-                current->size += current->prev->size;
+        tmp = block->prev;
+        block->prev = block->prev->prev;
+        block->prev->next = block;
+        free(tmp);
+    }
 
-                tmp = current->prev;
-                current->prev = current->prev->prev;
-                current->prev->next = current;
-                free(tmp);
-            }
+    return block->next;
+}
 
-            return;
+int arena_free(Arena *arena, void *p) {
+    ArenaBlock *tmp;
+    ArenaBlock *block = arena_get_block(arena, p);
+    if (!block) {
+        // Couldn't find block from pointer
+        return ARENA_FAILURE;
+    }
+
+    arena_free_block(arena, block);
+    return ARENA_SUCCESS;
+}
+
+int arena_get_tag(Arena *arena, void *p) {
+    ArenaBlock *block = arena_get_block(arena, p);
+    if (block) {
+        return block->tag;
+    }
+    return ARENA_FAILURE;
+}
+
+int arena_set_tag(Arena *arena, void *p, int tag) {
+    ArenaBlock *block = arena_get_block(arena, p);
+    if (block) {
+        block->tag = tag;
+        return ARENA_SUCCESS;
+    }
+
+    return ARENA_FAILURE;
+}
+
+void arena_collect_tag(Arena *arena, int tag) {
+    ArenaBlock *block = arena->head;
+
+    while (block) {
+        if (block->tag == tag) {
+            block = arena_free_block(arena, block);
+        } else {
+            block = block->next;
         }
-
-        current = current->next;
     }
 }
