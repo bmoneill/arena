@@ -9,6 +9,8 @@
 #define ARENA_FAILURE 0
 #define ARENA_SUCCESS 1
 
+#define ARENA_PTR(A, B) ((void *)((char *)A->mem + B->idx))
+
 typedef struct arena_block_s {
     size_t idx;
     size_t size;
@@ -35,13 +37,12 @@ ArenaBlock *arena_get_block(Arena *arena, void *p);
 /* Standard memory management functions */
 void *arena_calloc(Arena *arena, size_t size, size_t num);
 void *arena_malloc(Arena *arena, size_t size);
-void *arena_realloc(Arena *arena, void *p, size_t n, size_t size);
+void *arena_realloc(Arena *arena, void *p, size_t size);
 int arena_free(Arena *arena, void *p);
 
 /* Tagging stuff */
 int arena_get_tag(Arena *arena, void *p);
 int arena_set_tag(Arena *arena, void *p, int tag);
 void arena_collect_tag(Arena *arena, int tag);
-
 
 #endif

@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ARENA_GET_PTR()
+
 /**
  * @brief Initializes an Arena with a given size.
  *
@@ -106,7 +108,7 @@ void *arena_malloc(Arena *arena, size_t size) {
                 current->size = size;
             }
             current->status = ARENA_STATUS_USED;
-            return (void *)((char *)arena->mem + current->idx);
+            return ARENA_PTR(arena, current);
         }
 
         current = current->next;
@@ -115,8 +117,67 @@ void *arena_malloc(Arena *arena, size_t size) {
     return NULL;
 }
 
-void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
-    // TODO implement
+void *arena_realloc(Arena *arena, void *p, size_t size) {
+    ArenaBlock *block = arena_get_block(arena, p);
+    if (!block) {
+        return NULL;
+    }
+
+    if (size == block->size) {
+        return p;
+    } else if (size < block->size) {
+        int oldSize = block->size;
+        int delta = oldSize - size;
+        block->size = size;
+        ArenaBlock *next = block->next;
+        if (next) {
+            if (next->status == ARENA_STATUS_FREE) {
+                next->idx -= delta;
+                next->size += delta;
+            } else {
+                ArenaBlock *oldNext = next;
+                if (!(next = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
+                    return NULL;
+                }
+
+                block->next = next;
+                next->size = delta;
+                next->idx = block->idx + size;
+                next->status = ARENA_STATUS_FREE;
+                next->next = oldNext;
+                next->prev = block;
+            }
+        }
+
+        return p;
+    } else {
+        int oldSize = block->size;
+        size_t delta = size - oldSize;
+        ArenaBlock *next = block->next;
+        ArenaBlock *prev = block->prev;
+        if (next && next->status == ARENA_STATUS_FREE && next->size >= delta) {
+            if (next->size == delta) {
+                block->next = next->next;
+                block->next->prev = block;
+                block->size = size;
+                return p;
+            } else {
+                // Shrink next block
+            }
+        } else if (prev && prev->status == ARENA_STATUS_FREE && prev->size >= delta) {
+            if (prev->size == delta) {
+                int oldIdx = block->idx;
+                block->prev = prev->prev;
+                block->prev->next = block;
+                block->idx -= delta;
+                block->prev->size -= delta;
+
+                // Move contents back
+            }
+        } else {
+            // Move to completely new block
+        }
+    }
     return NULL;
 }
 
