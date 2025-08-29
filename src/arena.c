@@ -20,7 +20,14 @@ Arena *arena_init(size_t size, size_t maxBlocks) {
     arena->size = size;
     arena->maxBlocks = maxBlocks;
 
+    if (!(arena->mem = malloc(size))) {
+        free(arena);
+        return NULL;
+    }
+
     if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
+        free(arena->mem);
+        free(arena);
         return NULL;
     }
 
@@ -29,6 +36,7 @@ Arena *arena_init(size_t size, size_t maxBlocks) {
     arena->head->tag = ARENA_TAG_NONE;
     arena->head->status = ARENA_STATUS_FREE;
     arena->head->next = NULL;
+    arena->head->prev = NULL;
     return arena;
 }
 
@@ -72,21 +80,22 @@ void *arena_malloc(Arena *arena, size_t size) {
                     return NULL;
                 }
 
-                current->next = newNext;
-                current->size = size;
-
                 newNext->next = oldNext;
                 newNext->idx = current->idx + size;
                 newNext->size = current->size - size;
-                newNext->status = ARENA_STATUS_FREE;
                 newNext->tag = ARENA_TAG_NONE;
+
+                current->next = newNext;
+                current->size = size;
             }
             current->status = ARENA_STATUS_USED;
-            return &arena->mem + current->idx;
+            return (void *)((char *)arena->mem + current->idx);
         }
 
         current = current->next;
     }
+
+    return NULL;
 }
 
 void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
@@ -97,7 +106,7 @@ void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
 void arena_free(Arena *arena, void *p) {
     ArenaBlock *current = arena->head;
     ArenaBlock *tmp = NULL;
-    size_t idx = (size_t) (&p - &arena->mem);
+    size_t idx = (size_t)((char *)p - (char *)arena->mem);
     while (current != NULL) {
         if (current->idx == idx) {
             current->status = ARENA_STATUS_FREE;
