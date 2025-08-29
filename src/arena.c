@@ -41,6 +41,12 @@ Arena *arena_init(size_t size, size_t maxBlocks) {
     return arena;
 }
 
+/**
+ * @brief Destroys the given Arena, freeing all associated memory.
+ *
+ * @param arena Pointer to the Arena structure to destroy.
+ * @return 1 on success.
+ */
 int arena_destroy(Arena *arena) {
     if (arena->mem) {
         free(arena->mem);
@@ -57,6 +63,13 @@ int arena_destroy(Arena *arena) {
     return 1;
 }
 
+/**
+ * @brief Retrieves the ArenaBlock corresponding to the given pointer.
+ * 
+ * @param arena Pointer to the Arena structure.
+ * @param p Pointer to the memory block.
+ * @return Pointer to the corresponding ArenaBlock, or NULL if not found.
+ */
 ArenaBlock *arena_get_block(Arena *arena, void *p) {
     ArenaBlock *current = arena->head;
     size_t idx = (size_t)((char *)p - (char *)arena->mem);
@@ -85,6 +98,13 @@ void *arena_calloc(Arena *arena, size_t num, size_t size) {
     return result;
 }
 
+/**
+ * @brief Allocates a block of memory of the specified size within the arena.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param size Size of the memory block to allocate.
+ * @return Pointer to the allocated ArenaBlock, or NULL if allocation fails.
+ */
 ArenaBlock *arena_alloc(Arena *arena, size_t size) {
     ArenaBlock *current = arena->head;
     while (current) {
@@ -93,6 +113,8 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
                 // Create another block in between
                 ArenaBlock *oldNext = current->next;
                 ArenaBlock *newNext;
+
+                // TODO allocate block memory on initialization
                 if (!(newNext = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
                     return NULL;
                 }
@@ -114,6 +136,13 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
     return NULL;
 }
 
+/**
+ * @brief Allocates a block of memory of the specified size within the arena.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param size Size of the memory block to allocate.
+ * @return Pointer to the allocated memory, or NULL if allocation fails.
+ */
 void *arena_malloc(Arena *arena, size_t size) {
     ArenaBlock *block = arena_alloc(arena, size);
     if (!block) {
@@ -123,6 +152,14 @@ void *arena_malloc(Arena *arena, size_t size) {
     return ARENA_PTR(arena, block);
 }
 
+/**
+ * @brief Reallocates a block of memory to a new size within the arena.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param p Pointer to the existing memory block.
+ * @param size New size for the memory block.
+ * @return Pointer to the reallocated memory, or NULL on failure.
+ */
 void *arena_realloc(Arena *arena, void *p, size_t size) {
     ArenaBlock *block = arena_get_block(arena, p);
     if (!block) {
@@ -173,6 +210,10 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
 
 /**
  * @brief Free the given block of memory and return the next one
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param block Pointer to the ArenaBlock to free.
+ * @return Pointer to the next ArenaBlock after the freed block.
  */
 ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
     ArenaBlock *tmp;
@@ -200,6 +241,13 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
     return block->next;
 }
 
+/**
+ * @brief Frees a block of memory within the arena.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param p Pointer to the memory block to free.
+ * @return 1 on success, 0 on failure.
+ */
 int arena_free(Arena *arena, void *p) {
     ArenaBlock *tmp;
     ArenaBlock *block = arena_get_block(arena, p);
@@ -212,6 +260,13 @@ int arena_free(Arena *arena, void *p) {
     return ARENA_SUCCESS;
 }
 
+/**
+ * @brief Retrieves the tag associated with a memory block.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param p Pointer to the memory block.
+ * @return The tag of the block, or ARENA_FAILURE if the block is not found.
+ */
 int arena_get_tag(Arena *arena, void *p) {
     ArenaBlock *block = arena_get_block(arena, p);
     if (block) {
@@ -220,6 +275,14 @@ int arena_get_tag(Arena *arena, void *p) {
     return ARENA_FAILURE;
 }
 
+/**
+ * @brief Sets the tag for a memory block.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param p Pointer to the memory block.
+ * @param tag The tag value to set.
+ * @return ARENA_SUCCESS on success, ARENA_FAILURE if the block is not found.
+ */
 int arena_set_tag(Arena *arena, void *p, int tag) {
     ArenaBlock *block = arena_get_block(arena, p);
     if (block) {
@@ -230,6 +293,12 @@ int arena_set_tag(Arena *arena, void *p, int tag) {
     return ARENA_FAILURE;
 }
 
+/**
+ * @brief Frees all memory blocks with the specified tag.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param tag The tag value to collect.
+ */
 void arena_collect_tag(Arena *arena, int tag) {
     ArenaBlock *block = arena->head;
 
