@@ -64,8 +64,42 @@ int arena_destroy(Arena *arena) {
 }
 
 /**
+ * @brief Free the given block of memory and return the next one
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param block Pointer to the ArenaBlock to free.
+ * @return Pointer to the next ArenaBlock after the freed block.
+ */
+ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
+    ArenaBlock *tmp;
+    block->status = ARENA_STATUS_FREE;
+    block->tag = ARENA_TAG_NONE;
+
+    if (block->next != NULL && block->next->status == ARENA_STATUS_FREE) {
+        block->size += block->next->size;
+        tmp = block->next;
+        block->next = block->next->next;
+        block->next->prev = block;
+        free(tmp);
+    }
+
+    if (block->prev != NULL && block->prev->status == ARENA_STATUS_FREE) {
+        block->idx = block->prev->idx;
+        block->size += block->prev->size;
+
+        tmp = block->prev;
+        block->prev = block->prev->prev;
+        block->prev->next = block;
+        free(tmp);
+    }
+
+    return block->next;
+}
+
+
+/**
  * @brief Retrieves the ArenaBlock corresponding to the given pointer.
- * 
+ *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the memory block.
  * @return Pointer to the corresponding ArenaBlock, or NULL if not found.
@@ -82,20 +116,6 @@ ArenaBlock *arena_get_block(Arena *arena, void *p) {
     }
 
     return NULL;
-}
-
-/**
- * @brief Allocates memory for an array of elements, initializing all bytes to zero.
- *
- * @param arena Pointer to the Arena structure.
- * @param num Number of elements to allocate.
- * @param size Size of each element.
- * @return Pointer to the allocated memory, or NULL on failure.
- */
-void *arena_calloc(Arena *arena, size_t num, size_t size) {
-    void *result = arena_malloc(arena, num * size);
-    memset(result, 0, num * size);
-    return result;
 }
 
 /**
@@ -153,6 +173,20 @@ void *arena_malloc(Arena *arena, size_t size) {
 }
 
 /**
+ * @brief Allocates memory for an array of elements, initializing all bytes to zero.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param num Number of elements to allocate.
+ * @param size Size of each element.
+ * @return Pointer to the allocated memory, or NULL on failure.
+ */
+void *arena_calloc(Arena *arena, size_t num, size_t size) {
+    void *result = arena_malloc(arena, num * size);
+    memset(result, 0, num * size);
+    return result;
+}
+
+/**
  * @brief Reallocates a block of memory to a new size within the arena.
  *
  * @param arena Pointer to the Arena structure.
@@ -206,39 +240,6 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
         return ARENA_PTR(arena, newBlock);
     }
     return NULL;
-}
-
-/**
- * @brief Free the given block of memory and return the next one
- *
- * @param arena Pointer to the Arena structure.
- * @param block Pointer to the ArenaBlock to free.
- * @return Pointer to the next ArenaBlock after the freed block.
- */
-ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
-    ArenaBlock *tmp;
-    block->status = ARENA_STATUS_FREE;
-    block->tag = ARENA_TAG_NONE;
-
-    if (block->next != NULL && block->next->status == ARENA_STATUS_FREE) {
-        block->size += block->next->size;
-        tmp = block->next;
-        block->next = block->next->next;
-        block->next->prev = block;
-        free(tmp);
-    }
-
-    if (block->prev != NULL && block->prev->status == ARENA_STATUS_FREE) {
-        block->idx = block->prev->idx;
-        block->size += block->prev->size;
-
-        tmp = block->prev;
-        block->prev = block->prev->prev;
-        block->prev->next = block;
-        free(tmp);
-    }
-
-    return block->next;
 }
 
 /**
