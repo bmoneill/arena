@@ -1,6 +1,7 @@
 #include "arena.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief Initializes an Arena with a given size.
@@ -65,7 +66,9 @@ int arena_destroy(Arena *arena) {
  * @return Pointer to the allocated memory, or NULL on failure.
  */
 void *arena_calloc(Arena *arena, size_t num, size_t size) {
-    // TODO implement
+    void *result = arena_malloc(arena, num * size);
+    memset(result, 0, num * size);
+    return result;
 }
 
 void *arena_malloc(Arena *arena, size_t size) {
