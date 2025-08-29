@@ -82,12 +82,12 @@ ArenaBlock *arena_get_block(Arena *arena, void *p) {
  * @return Pointer to the allocated memory, or NULL on failure.
  */
 void *arena_calloc(Arena *arena, size_t num, size_t size) {
-    void *result = arena_malloc(arena, num * size);
+    void *result = ARENA_MALLOC(arena, num * size);
     memset(result, 0, num * size);
     return result;
 }
 
-void *arena_malloc(Arena *arena, size_t size) {
+ArenaBlock *arena_alloc(Arena *arena, size_t size) {
     ArenaBlock *current = arena->head;
     while (current) {
         if (current->status == ARENA_STATUS_FREE && current->size >= size) {
@@ -108,9 +108,8 @@ void *arena_malloc(Arena *arena, size_t size) {
                 current->size = size;
             }
             current->status = ARENA_STATUS_USED;
-            return ARENA_PTR(arena, current);
+            return current;
         }
-
         current = current->next;
     }
 
@@ -120,21 +119,26 @@ void *arena_malloc(Arena *arena, size_t size) {
 void *arena_realloc(Arena *arena, void *p, size_t size) {
     ArenaBlock *block = arena_get_block(arena, p);
     if (!block) {
+        // Invalid block
         return NULL;
     }
 
     if (size == block->size) {
+        // New size equal to old size
         return p;
     } else if (size < block->size) {
+        // New size less than old size
         int oldSize = block->size;
         int delta = oldSize - size;
         block->size = size;
         ArenaBlock *next = block->next;
         if (next) {
             if (next->status == ARENA_STATUS_FREE) {
+                // Expand next block
                 next->idx -= delta;
                 next->size += delta;
             } else {
+                // Create new free block in between
                 ArenaBlock *oldNext = next;
                 if (!(next = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
                     return NULL;
@@ -151,32 +155,11 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
 
         return p;
     } else {
-        int oldSize = block->size;
-        size_t delta = size - oldSize;
-        ArenaBlock *next = block->next;
-        ArenaBlock *prev = block->prev;
-        if (next && next->status == ARENA_STATUS_FREE && next->size >= delta) {
-            if (next->size == delta) {
-                block->next = next->next;
-                block->next->prev = block;
-                block->size = size;
-                return p;
-            } else {
-                // Shrink next block
-            }
-        } else if (prev && prev->status == ARENA_STATUS_FREE && prev->size >= delta) {
-            if (prev->size == delta) {
-                int oldIdx = block->idx;
-                block->prev = prev->prev;
-                block->prev->next = block;
-                block->idx -= delta;
-                block->prev->size -= delta;
-
-                // Move contents back
-            }
-        } else {
-            // Move to completely new block
-        }
+        // New size greater than old size
+        ArenaBlock *newBlock = ARENA_MALLOC(arena, size);
+        ARENA_COPY(arena, newBlock, block);
+        arena_free_block(arena, block);
+        return ARENA_PTR(arena, newBlock);
     }
     return NULL;
 }

@@ -2,6 +2,7 @@
 #define ARENA_H
 
 #include <stddef.h>
+#include <string.h>
 
 #define ARENA_STATUS_FREE 0
 #define ARENA_STATUS_USED 1
@@ -9,7 +10,9 @@
 #define ARENA_FAILURE 0
 #define ARENA_SUCCESS 1
 
-#define ARENA_PTR(A, B) ((void *)((char *)A->mem + B->idx))
+#define ARENA_PTR(arena, block) ((void *)((char *)arena->mem + block->idx))
+#define ARENA_COPY(arena, dst, src) memcpy(ARENA_PTR(arena, dst), ARENA_PTR(arena, src), src->size)
+#define ARENA_MALLOC(arena, size) ARENA_PTR(arena, arena_alloc(arena, size))
 
 typedef struct arena_block_s {
     size_t idx;
@@ -33,10 +36,10 @@ Arena *arena_init(size_t size, size_t blockCount);
 int arena_destroy(Arena *arena);
 ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block);
 ArenaBlock *arena_get_block(Arena *arena, void *p);
+ArenaBlock *arena_alloc(Arena *arena, size_t size);
 
 /* Standard memory management functions */
 void *arena_calloc(Arena *arena, size_t size, size_t num);
-void *arena_malloc(Arena *arena, size_t size);
 void *arena_realloc(Arena *arena, void *p, size_t size);
 int arena_free(Arena *arena, void *p);
 
