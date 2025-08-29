@@ -3,19 +3,21 @@
 
 #include <stddef.h>
 
+#define ARENA_STATUS_FREE 0
+#define ARENA_STATUS_USED 1
+#define ARENA_TAG_NONE -1
+
 typedef struct arena_block_s {
     size_t idx;
     size_t size;
-    void *ptr;
+    int tag;
+    int status;
     struct arena_block_s *next;
-    struct arena_block_s *prev;
 } ArenaBlock;
 
 typedef struct {
     void *mem;
-    ArenaBlock **blocks;
     ArenaBlock *head;
-    ArenaBlock *tail;
     size_t idx;
     size_t size;
     size_t maxBlocks;
@@ -32,6 +34,7 @@ void arena_free(Arena *arena, void *p);
 /*
 int arena_compact(Arena *arena);
 int arena_collect(Arena *arena);
+int arena_collect_tag(Arena *arena, int tag);
 */
 
 #endif

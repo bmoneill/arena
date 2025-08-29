@@ -20,11 +20,14 @@ Arena *arena_init(size_t size, size_t maxBlocks) {
     arena->size = size;
     arena->maxBlocks = maxBlocks;
 
-    if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock) * maxBlocks))) {
+    if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
         return NULL;
     }
 
-    arena->head->ptr = NULL;
+    arena->head->idx = 0;
+    arena->head->size = size;
+    arena->head->tag = ARENA_TAG_NONE;
+    arena->head->status = ARENA_STATUS_FREE;
     arena->head->next = NULL;
     return arena;
 }
@@ -51,7 +54,31 @@ void *arena_calloc(Arena *arena, size_t num, size_t size) {
 }
 
 void *arena_malloc(Arena *arena, size_t size) {
-    // TODO implement
+    ArenaBlock *current = arena->head;
+    while (current != NULL) {
+        if (current->status == ARENA_STATUS_FREE && current->size >= size) {
+            // Create another block in between
+            ArenaBlock *oldNext = current->next;
+            ArenaBlock *newNext;
+            if (!(newNext = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
+                return NULL;
+            }
+
+            current->next = newNext;
+            current->size = size;
+            current->status = ARENA_STATUS_USED;
+
+            newNext->next = oldNext;
+            newNext->idx = current->idx + size;
+            newNext->size = current->size - size;
+            newNext->status = ARENA_STATUS_FREE;
+            newNext->tag = ARENA_TAG_NONE;
+
+            return &arena->mem + current->idx;
+        }
+
+        current = current->next;
+    }
 }
 
 void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
@@ -60,7 +87,16 @@ void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
 }
 
 void arena_free(Arena *arena, void *p) {
-    // TODO implement
+    ArenaBlock *current = arena->head;
+    size_t idx = (size_t) (&p - &arena->mem);
+    while (current != NULL) {
+        if (current->idx == idx) {
+            current->status = ARENA_STATUS_FREE;
+            return;
+        }
+
+        current = current->next;
+    }
 }
 
 static ArenaBlock *create_arenablock(Arena *arena, size_t size) {
