@@ -13,6 +13,7 @@ typedef struct arena_block_s {
     int tag;
     int status;
     struct arena_block_s *next;
+    struct arena_block_s *prev;
 } ArenaBlock;
 
 typedef struct {

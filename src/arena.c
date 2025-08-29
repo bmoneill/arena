@@ -37,6 +37,13 @@ int arena_destroy(Arena *arena) {
         free(arena->mem);
     }
 
+    ArenaBlock *current = arena->head;
+    while (current != NULL) {
+        ArenaBlock *next = current->next;
+        free(current);
+        current = next;
+    }
+
     free(arena);
     return 1;
 }
@@ -88,59 +95,34 @@ void *arena_realloc(Arena *arena, void *p, size_t n, size_t size) {
 
 void arena_free(Arena *arena, void *p) {
     ArenaBlock *current = arena->head;
+    ArenaBlock *tmp = NULL;
     size_t idx = (size_t) (&p - &arena->mem);
     while (current != NULL) {
         if (current->idx == idx) {
             current->status = ARENA_STATUS_FREE;
+
+            if (current->next != NULL && current->next->status == ARENA_STATUS_FREE) {
+                current->size += current->next->size;
+
+                tmp = current->next;
+                current->next = current->next->next;
+                current->next->prev = current;
+                free(tmp);
+            }
+
+            if (current->prev != NULL && current->prev->status == ARENA_STATUS_FREE) {
+                current->idx = current->prev->idx;
+                current->size += current->prev->size;
+
+                tmp = current->prev;
+                current->prev = current->prev->prev;
+                current->prev->next = current;
+                free(tmp);
+            }
+
             return;
         }
 
         current = current->next;
-    }
-}
-
-static ArenaBlock *create_arenablock(Arena *arena, size_t size) {
-    ArenaBlock *block = NULL;
-    void *ptr;
-
-    if (size > arena->size) {
-        // Block too big
-        return NULL;
-    }
-
-    for (int i = 0; i < arena->maxBlocks; i++) {
-        if (arena->blocks[i]->ptr == NULL) {
-            block = arena->blocks[i];
-            block->next = NULL;
-            block->prev = arena->tail;
-            block->size = size;
-        }
-    }
-
-    if (block == NULL) {
-        // Max blocks already alloced
-        return NULL;
-    }
-
-    if (arena->head == NULL) {
-        arena->head = block;
-    }
-
-}
-
-/**
- * @brief Find a free block with the given size
- */
-static void *find_free_block(Arena *arena, size_t size) {
-    ArenaBlock *block = create_arenablock(arena, size);
-    if (block == NULL) {
-        return NULL;
-    }
-
-    ArenaBlock *cur = arena->head;
-    ArenaBlock *prev = NULL;
-
-    while (cur != NULL) {
-
     }
 }
