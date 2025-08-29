@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ARENA_GET_PTR()
-
 /**
  * @brief Initializes an Arena with a given size.
  *
@@ -82,7 +80,7 @@ ArenaBlock *arena_get_block(Arena *arena, void *p) {
  * @return Pointer to the allocated memory, or NULL on failure.
  */
 void *arena_calloc(Arena *arena, size_t num, size_t size) {
-    void *result = ARENA_MALLOC(arena, num * size);
+    void *result = arena_malloc(arena, num * size);
     memset(result, 0, num * size);
     return result;
 }
@@ -114,6 +112,15 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
     }
 
     return NULL;
+}
+
+void *arena_malloc(Arena *arena, size_t size) {
+    ArenaBlock *block = arena_alloc(arena, size);
+    if (!block) {
+        return NULL;
+    }
+
+    return ARENA_PTR(arena, block);
 }
 
 void *arena_realloc(Arena *arena, void *p, size_t size) {
@@ -156,7 +163,7 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
         return p;
     } else {
         // New size greater than old size
-        ArenaBlock *newBlock = ARENA_MALLOC(arena, size);
+        ArenaBlock *newBlock = arena_malloc(arena, size);
         ARENA_COPY(arena, newBlock, block);
         arena_free_block(arena, block);
         return ARENA_PTR(arena, newBlock);

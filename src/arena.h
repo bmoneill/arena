@@ -12,7 +12,6 @@
 
 #define ARENA_PTR(arena, block) ((void *)((char *)arena->mem + block->idx))
 #define ARENA_COPY(arena, dst, src) memcpy(ARENA_PTR(arena, dst), ARENA_PTR(arena, src), src->size)
-#define ARENA_MALLOC(arena, size) ARENA_PTR(arena, arena_alloc(arena, size))
 
 typedef struct arena_block_s {
     size_t idx;
@@ -39,6 +38,7 @@ ArenaBlock *arena_get_block(Arena *arena, void *p);
 ArenaBlock *arena_alloc(Arena *arena, size_t size);
 
 /* Standard memory management functions */
+void *arena_malloc(Arena *arena, size_t size);
 void *arena_calloc(Arena *arena, size_t size, size_t num);
 void *arena_realloc(Arena *arena, void *p, size_t size);
 int arena_free(Arena *arena, void *p);
