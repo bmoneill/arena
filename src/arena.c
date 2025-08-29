@@ -65,22 +65,23 @@ void *arena_malloc(Arena *arena, size_t size) {
     while (current != NULL) {
         if (current->status == ARENA_STATUS_FREE && current->size >= size) {
             // Create another block in between
-            ArenaBlock *oldNext = current->next;
-            ArenaBlock *newNext;
-            if (!(newNext = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
-                return NULL;
+            if (current->size > size) {
+                ArenaBlock *oldNext = current->next;
+                ArenaBlock *newNext;
+                if (!(newNext = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
+                    return NULL;
+                }
+
+                current->next = newNext;
+                current->size = size;
+
+                newNext->next = oldNext;
+                newNext->idx = current->idx + size;
+                newNext->size = current->size - size;
+                newNext->status = ARENA_STATUS_FREE;
+                newNext->tag = ARENA_TAG_NONE;
             }
-
-            current->next = newNext;
-            current->size = size;
             current->status = ARENA_STATUS_USED;
-
-            newNext->next = oldNext;
-            newNext->idx = current->idx + size;
-            newNext->size = current->size - size;
-            newNext->status = ARENA_STATUS_FREE;
-            newNext->tag = ARENA_TAG_NONE;
-
             return &arena->mem + current->idx;
         }
 
