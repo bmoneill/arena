@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static ArenaBlock *arena_find_empty_block(Arena *arena);
+
 /**
  * @brief Initializes an Arena with a given size.
  *
@@ -26,10 +28,14 @@ Arena *arena_init(size_t size, size_t maxBlocks) {
         return NULL;
     }
 
-    if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
+    if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock) * maxBlocks))) {
         free(arena->mem);
         free(arena);
         return NULL;
+    }
+
+    for (int i = 0; i < maxBlocks; i++) {
+        arena->head[i].idx = -1;
     }
 
     arena->head->idx = 0;
@@ -80,7 +86,6 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
         tmp = block->next;
         block->next = block->next->next;
         block->next->prev = block;
-        free(tmp);
     }
 
     if (block->prev != NULL && block->prev->status == ARENA_STATUS_FREE) {
@@ -90,9 +95,9 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
         tmp = block->prev;
         block->prev = block->prev->prev;
         block->prev->next = block;
-        free(tmp);
     }
 
+    tmp->status = ARENA_STATUS_UNDEFINED;
     return block->next;
 }
 
@@ -134,11 +139,7 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
                 ArenaBlock *oldNext = current->next;
                 ArenaBlock *newNext;
 
-                // TODO allocate block memory on initialization
-                if (!(newNext = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
-                    return NULL;
-                }
-
+                newNext = arena_find_empty_block(arena);
                 newNext->next = oldNext;
                 newNext->idx = current->idx + size;
                 newNext->size = current->size - size;
@@ -333,6 +334,19 @@ void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
     ArenaBlock *block = arena_get_block_by_tag(arena, tag, n);
     if (block) {
         return ARENA_PTR(arena, block);
+    }
+    return NULL;
+}
+
+static ArenaBlock *arena_find_empty_block(Arena *arena) {
+    ArenaBlock *current = arena->head;
+    size_t count = 0;
+
+    for (int i = 0; i < arena->maxBlocks; i++) {
+        if (current->status == ARENA_STATUS_UNDEFINED) {
+            return current;
+        }
+        current++;
     }
     return NULL;
 }
