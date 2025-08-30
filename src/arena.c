@@ -10,9 +10,10 @@ static ArenaBlock *arena_find_empty_block(Arena *arena);
  *
  * @param size The total size of the arena to allocate.
  * @param maxBlocks The maximum number of blocks that can be allocated at once.
+ * @param managed If non-zero, the arena will manage blocks, allowing for freeing and dynamic reallocation.
  * @return A pointer to the initialized Arena structure, or NULL on failure.
  */
-Arena *arena_init(size_t size, size_t maxBlocks) {
+Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
     Arena *arena;
 
     if (!(arena = (Arena *) malloc(sizeof(Arena)))) {
@@ -22,16 +23,19 @@ Arena *arena_init(size_t size, size_t maxBlocks) {
     arena->idx = 0;
     arena->size = size;
     arena->maxBlocks = maxBlocks;
+    arena->managed = managed;
 
     if (!(arena->mem = malloc(size))) {
         free(arena);
         return NULL;
     }
 
-    if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock) * maxBlocks))) {
-        free(arena->mem);
-        free(arena);
-        return NULL;
+    if (managed) {
+        if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock) * maxBlocks))) {
+            free(arena->mem);
+            free(arena);
+            return NULL;
+        }
     }
 
     for (int i = 0; i < maxBlocks; i++) {
@@ -58,11 +62,13 @@ int arena_destroy(Arena *arena) {
         free(arena->mem);
     }
 
-    ArenaBlock *current = arena->head;
-    while (current != NULL) {
-        ArenaBlock *next = current->next;
-        free(current);
-        current = next;
+    if (arena->managed) {
+        ArenaBlock *current = arena->head;
+        while (current != NULL) {
+            ArenaBlock *next = current->next;
+            free(current);
+            current = next;
+        }
     }
 
     free(arena);
@@ -72,11 +78,17 @@ int arena_destroy(Arena *arena) {
 /**
  * @brief Free the given block of memory and return the next one
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param block Pointer to the ArenaBlock to free.
  * @return Pointer to the next ArenaBlock after the freed block.
  */
 ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *tmp;
     block->status = ARENA_STATUS_FREE;
     block->tag = ARENA_TAG_NONE;
@@ -105,11 +117,17 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
 /**
  * @brief Retrieves the ArenaBlock corresponding to the given pointer.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the memory block.
  * @return Pointer to the corresponding ArenaBlock, or NULL if not found.
  */
 ArenaBlock *arena_get_block(Arena *arena, void *p) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *current = arena->head;
     size_t idx = (size_t)((char *)p - (char *)arena->mem);
 
@@ -131,6 +149,10 @@ ArenaBlock *arena_get_block(Arena *arena, void *p) {
  * @return Pointer to the allocated ArenaBlock, or NULL if allocation fails.
  */
 ArenaBlock *arena_alloc(Arena *arena, size_t size) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *current = arena->head;
     while (current) {
         if (current->status == ARENA_STATUS_FREE && current->size >= size) {
@@ -165,6 +187,12 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
  * @return Pointer to the allocated memory, or NULL if allocation fails.
  */
 void *arena_malloc(Arena *arena, size_t size) {
+    if (!arena->managed) {
+        void *oldHead = arena->head;
+        arena->head = (char *)arena->head + size;
+        return oldHead;
+    }
+
     ArenaBlock *block = arena_alloc(arena, size);
     if (!block) {
         return NULL;
@@ -190,12 +218,18 @@ void *arena_calloc(Arena *arena, size_t num, size_t size) {
 /**
  * @brief Reallocates a block of memory to a new size within the arena.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the existing memory block.
  * @param size New size for the memory block.
  * @return Pointer to the reallocated memory, or NULL on failure.
  */
 void *arena_realloc(Arena *arena, void *p, size_t size) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *block = arena_get_block(arena, p);
     if (!block) {
         // Invalid block
@@ -246,11 +280,17 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
 /**
  * @brief Frees a block of memory within the arena.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the memory block to free.
  * @return 1 on success, 0 on failure.
  */
 int arena_free(Arena *arena, void *p) {
+    if (!arena->managed) {
+        return ARENA_FAILURE;
+    }
+
     ArenaBlock *tmp;
     ArenaBlock *block = arena_get_block(arena, p);
     if (!block) {
@@ -265,11 +305,17 @@ int arena_free(Arena *arena, void *p) {
 /**
  * @brief Retrieves the tag associated with a memory block.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the memory block.
  * @return The tag of the block, or ARENA_FAILURE if the block is not found.
  */
 int arena_get_tag(Arena *arena, void *p) {
+    if (!arena->managed) {
+        return ARENA_FAILURE;
+    }
+
     ArenaBlock *block = arena_get_block(arena, p);
     if (block) {
         return block->tag;
@@ -280,12 +326,18 @@ int arena_get_tag(Arena *arena, void *p) {
 /**
  * @brief Sets the tag for a memory block.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the memory block.
  * @param tag The tag value to set.
  * @return ARENA_SUCCESS on success, ARENA_FAILURE if the block is not found.
  */
 int arena_set_tag(Arena *arena, void *p, int tag) {
+    if (!arena->managed) {
+        return ARENA_FAILURE;
+    }
+
     ArenaBlock *block = arena_get_block(arena, p);
     if (block) {
         block->tag = tag;
@@ -298,10 +350,16 @@ int arena_set_tag(Arena *arena, void *p, int tag) {
 /**
  * @brief Frees all memory blocks with the specified tag.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param tag The tag value to collect.
  */
 void arena_collect_tag(Arena *arena, int tag) {
+    if (!arena->managed) {
+        return;
+    }
+
     ArenaBlock *block = arena->head;
 
     while (block) {
@@ -316,12 +374,18 @@ void arena_collect_tag(Arena *arena, int tag) {
 /**
  * @brief Retrieves the n-th block with the specified tag.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param tag The tag value to search for.
  * @param n The index of the block to retrieve.
  * @return Pointer to the n-th ArenaBlock with the specified tag, or NULL if not found.
  */
 ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *block = arena->head;
     int count = 0;
 
@@ -341,12 +405,18 @@ ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
 /**
  * @brief Retrieves the pointer to the n-th block with the specified tag.
  *
+ * This function can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @param tag The tag value to search for.
  * @param n The index of the block to retrieve.
  * @return Pointer to the n-th memory block with the specified tag, or NULL if not found.
  */
 void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *block = arena_get_block_by_tag(arena, tag, n);
     if (block) {
         return ARENA_PTR(arena, block);
@@ -357,10 +427,17 @@ void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
 /**
  * @brief Finds an empty (undefined) block in the arena's block list.
  *
+ * This function is used internally to manage block allocations.
+ * It can only be used if the arena is in managed mode.
+ *
  * @param arena Pointer to the Arena structure.
  * @return Pointer to an empty ArenaBlock, or NULL if none are available.
  */
 static ArenaBlock *arena_find_empty_block(Arena *arena) {
+    if (!arena->managed) {
+        return NULL;
+    }
+
     ArenaBlock *current = arena->head;
     size_t count = 0;
 

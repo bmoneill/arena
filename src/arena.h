@@ -1,6 +1,7 @@
 #ifndef ARENA_H
 #define ARENA_H
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
 
@@ -25,14 +26,16 @@ typedef struct arena_block_s {
 
 typedef struct {
     void *mem;
+    void *head;
     ArenaBlock *head;
     size_t idx;
     size_t size;
     size_t maxBlocks;
+    bool managed;
 } Arena;
 
 /* Init/deinit/helpers */
-Arena *arena_init(size_t size, size_t blockCount);
+Arena *arena_init(size_t size, size_t blockCount, int managed);
 int arena_destroy(Arena *arena);
 ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block);
 ArenaBlock *arena_get_block(Arena *arena, void *p);
