@@ -313,6 +313,14 @@ void arena_collect_tag(Arena *arena, int tag) {
     }
 }
 
+/**
+ * @brief Retrieves the n-th block with the specified tag.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param tag The tag value to search for.
+ * @param n The index of the block to retrieve.
+ * @return Pointer to the n-th ArenaBlock with the specified tag, or NULL if not found.
+ */
 ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
     ArenaBlock *block = arena->head;
     int count = 0;
@@ -330,6 +338,14 @@ ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
     return NULL;
 }
 
+/**
+ * @brief Retrieves the pointer to the n-th block with the specified tag.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param tag The tag value to search for.
+ * @param n The index of the block to retrieve.
+ * @return Pointer to the n-th memory block with the specified tag, or NULL if not found.
+ */
 void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
     ArenaBlock *block = arena_get_block_by_tag(arena, tag, n);
     if (block) {
@@ -338,6 +354,12 @@ void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
     return NULL;
 }
 
+/**
+ * @brief Finds an empty (undefined) block in the arena's block list.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @return Pointer to an empty ArenaBlock, or NULL if none are available.
+ */
 static ArenaBlock *arena_find_empty_block(Arena *arena) {
     ArenaBlock *current = arena->head;
     size_t count = 0;
