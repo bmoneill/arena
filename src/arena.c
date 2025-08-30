@@ -188,8 +188,8 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
  */
 void *arena_malloc(Arena *arena, size_t size) {
     if (!arena->managed) {
-        void *oldHead = arena->head;
-        arena->head = (char *)arena->head + size;
+        void *oldHead = arena->ptr;
+        arena->ptr = (char *)arena->ptr + size;
         return oldHead;
     }
 

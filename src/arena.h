@@ -26,7 +26,7 @@ typedef struct arena_block_s {
 
 typedef struct {
     void *mem;
-    void *head;
+    void *ptr;
     ArenaBlock *head;
     size_t idx;
     size_t size;
