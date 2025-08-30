@@ -47,5 +47,7 @@ int arena_free(Arena *arena, void *p);
 int arena_get_tag(Arena *arena, void *p);
 int arena_set_tag(Arena *arena, void *p, int tag);
 void arena_collect_tag(Arena *arena, int tag);
+ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n);
+void *arena_get_ptr_by_tag(Arena *arena, int tag, int n);
 
 #endif

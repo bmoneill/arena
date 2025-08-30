@@ -311,3 +311,28 @@ void arena_collect_tag(Arena *arena, int tag) {
         }
     }
 }
+
+ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
+    ArenaBlock *block = arena->head;
+    int count = 0;
+
+    while (block) {
+        if (block->tag == tag) {
+            if (count == n) {
+                return block;
+            }
+            count++;
+        }
+        block = block->next;
+    }
+
+    return NULL;
+}
+
+void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
+    ArenaBlock *block = arena_get_block_by_tag(arena, tag, n);
+    if (block) {
+        return ARENA_PTR(arena, block);
+    }
+    return NULL;
+}
