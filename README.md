@@ -19,6 +19,10 @@ make libarena.so # shared
 * Bookkeeping: Blocks are stored in a linked list that utilizes memory allocated upon initialization.
 * Tagging: Each block can have an assigned integer tag. Tags can be used to find blocks and free them if necessary.
 
+Bookkeeping can be disabled for better performance, but tags will not work. When an Arena is initialized with
+`managed` set to `false`, whenever malloc or calloc is called, an internal pointer will simply be incremented,
+and blocks will not be created or managed internally.
+
 ## Further Reading
 
 * [Fallout's Memory Model](https://youtu.be/6kB_fko6SIg)
