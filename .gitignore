@@ -2,3 +2,10 @@
 *.o
 *.so
 *.a
+
+# CMake
+CMakeFiles/
+*.cmake
+CMakeCache.txt
+DartConfiguration.tcl
+Makefile

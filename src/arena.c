@@ -38,7 +38,7 @@ Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
         }
     }
 
-    for (int i = 0; i < maxBlocks; i++) {
+    for (size_t i = 0; i < maxBlocks; i++) {
         arena->head[i].idx = -1;
     }
 
@@ -441,7 +441,7 @@ static ArenaBlock *arena_find_empty_block(Arena *arena) {
     ArenaBlock *current = arena->head;
     size_t count = 0;
 
-    for (int i = 0; i < arena->maxBlocks; i++) {
+    for (size_t i = 0; i < arena->maxBlocks; i++) {
         if (current->status == ARENA_STATUS_UNDEFINED) {
             return current;
         }
