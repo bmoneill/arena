@@ -16,16 +16,8 @@ make libarena.so # shared
 
 ## Features
 
-* Simple bookkeeping system
-* Tagging support
-
-### Bookkeeping
-
-Blocks are stored in a linked list that is allocated at initialization. The maximum number of blocks must be specified upon initialization. Freed blocks can then be reused as needed.
-
-### Tagging
-
-Each block can have an integer tag which can be used to find blocks with a given tag, and free them if necessary.
+* Bookkeeping: Blocks are stored in a linked list that utilizes memory allocated upon initialization.
+* Tagging: Each block can have an assigned integer tag. Tags can be used to find blocks and free them if necessary.
 
 ## Further Reading
 
