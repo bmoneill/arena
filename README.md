@@ -10,8 +10,7 @@ predictable and speed is important. Arenas can also be easily dumped for debuggi
 ### Linux
 
 ```shell
-make libarena.a # static
-make libarena.so # shared
+cmake --build .
 ```
 
 ## Features
