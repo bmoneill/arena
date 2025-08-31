@@ -36,18 +36,24 @@ Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
             free(arena);
             return NULL;
         }
+        arena->head[0].idx = 0;
+        arena->head[0].size = size;
+        arena->head[0].tag = ARENA_TAG_NONE;
+        arena->head[0].status = ARENA_STATUS_FREE;
+        arena->head[0].prev = NULL;
+        for (size_t i = 1; i < maxBlocks; i++) {
+            arena->head[i].idx = -1;
+            arena->head[i].size = 0;
+            arena->head[i].tag = ARENA_TAG_NONE;
+            arena->head[i].prev = &arena->head[i - 1];
+            arena->head[i - 1].next = &arena->head[i];
+            arena->head[i].status = ARENA_STATUS_UNDEFINED;
+        }
+    } else {
+        arena->head = NULL;
+        arena->ptr = arena->mem;
     }
 
-    for (size_t i = 0; i < maxBlocks; i++) {
-        arena->head[i].idx = -1;
-    }
-
-    arena->head->idx = 0;
-    arena->head->size = size;
-    arena->head->tag = ARENA_TAG_NONE;
-    arena->head->status = ARENA_STATUS_FREE;
-    arena->head->next = NULL;
-    arena->head->prev = NULL;
     return arena;
 }
 
@@ -63,12 +69,7 @@ int arena_destroy(Arena *arena) {
     }
 
     if (arena->managed) {
-        ArenaBlock *current = arena->head;
-        while (current != NULL) {
-            ArenaBlock *next = current->next;
-            free(current);
-            current = next;
-        }
+        free(arena->head);
     }
 
     free(arena);

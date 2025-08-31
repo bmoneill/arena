@@ -2,6 +2,7 @@
 *.o
 *.so
 *.a
+arena_tests
 
 # CMake
 CMakeFiles/

@@ -1,5 +1,3 @@
-# See https://honeytreelabs.com/posts/cmake-unity-integration
-
 cmake_minimum_required(VERSION 3.31.6)
 project("libarena" C)
 include(CTest)
