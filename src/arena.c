@@ -363,13 +363,14 @@ void arena_collect_tag(Arena *arena, int tag) {
     }
 
     ArenaBlock *block = arena->head;
+    ArenaBlock *next = NULL;
 
     while (block) {
+        next = block->next;
         if (block->tag == tag) {
-            block = arena_free_block(arena, block);
-        } else {
-            block = block->next;
+            arena_free_block(arena, block);
         }
+        block = next;
     }
 }
 
