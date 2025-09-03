@@ -1,6 +1,5 @@
 #include "arena.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -92,7 +91,7 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
         return NULL;
     }
 
-    ArenaBlock *tmp;
+    ArenaBlock *tmp = NULL;
     block->status = ARENA_STATUS_FREE;
     block->tag = ARENA_TAG_NONE;
 
