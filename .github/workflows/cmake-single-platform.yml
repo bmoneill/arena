@@ -53,4 +53,4 @@ jobs:
       run: chmod -R +x ${{ github.workspace }}/build
 
     - name: Run tests
-      run: ctest --test-dir ${{github.workspace}}/build --output-on-failure --verbose
+      run: ${{ github.workspace }}/test/arena_tests
