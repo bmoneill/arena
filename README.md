@@ -5,14 +5,6 @@ functions (malloc, calloc, realloc, memcpy, and free). Arena memory managers are
 short-lived data, such as game state information, ASTs, and other use-cases where the needed size is
 predictable and speed is important. Arenas can also be easily dumped for debugging.
 
-## Building
-
-### Linux
-
-```shell
-cmake --build .
-```
-
 ## Features
 
 * Bookkeeping: Blocks are stored in a linked list that utilizes memory allocated upon initialization.
@@ -21,6 +13,22 @@ cmake --build .
 Bookkeeping can be disabled for better performance, but tags will not work. When an Arena is initialized with
 `managed` set to `false`, whenever malloc or calloc is called, an internal pointer will simply be incremented,
 and blocks will not be created or managed internally.
+
+## Building
+
+### Linux
+
+```shell
+cmake --build .
+```
+
+## Testing
+
+```shell
+cmake -DTARGET_GROUP='test' .
+cmake --build .
+ctest .
+```
 
 ## Further Reading
 
