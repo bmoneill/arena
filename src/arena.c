@@ -366,17 +366,12 @@ void arena_collect_tag(Arena *arena, int tag) {
         return;
     }
 
-    ArenaBlock *block = arena->head;
-    ArenaBlock *next = NULL;
-
-    while (block && block->status != ARENA_STATUS_UNDEFINED) {
-        next = block->next;
-        printf("BLOCK %d %zu\n", block->status,block->idx);
-        if (block->tag == tag) {
-            printf("TAGGED\n");
-            arena_free_block(arena, block);
-        }
-        block = next;
+    ArenaBlock *block;
+    int idx = 0;
+    while ((block = arena_get_block_by_tag(arena, tag, idx))){
+        printf("collecting block with tag %d at idx %u\n", tag, idx);
+        arena_free_block(arena, block);
+        idx++;
     }
 }
 
@@ -395,17 +390,15 @@ ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
         return NULL;
     }
 
-    ArenaBlock *block = arena->head;
     int count = 0;
-
-    while (block) {
-        if (block->tag == tag) {
+    for (size_t i = 0; i < arena->maxBlocks; i++) {
+        ArenaBlock *block = &arena->head[i];
+        if (block->tag == tag && block->status == ARENA_STATUS_USED) {
             if (count == n) {
                 return block;
             }
             count++;
         }
-        block = block->next;
     }
 
     return NULL;

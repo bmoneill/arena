@@ -201,6 +201,7 @@ void test_arena_free_block_managed(void) {
     arena_free_block(arena, block1);
     TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, block1->status);
     TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, block2->next->status);
 }
 
 void test_arena_get_block(void) {
@@ -268,13 +269,19 @@ void test_arena_collect_tag(void) {
     INIT_MANAGED(1024, 10);
     ArenaBlock *block1 = arena_alloc(arena, 128);
     ArenaBlock *block2 = arena_alloc(arena, 256);
+    ArenaBlock *block3 = arena_alloc(arena, 256);
     block1->tag = tag;
     block2->tag = 0;
+    block3->tag = tag;
 
+    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block1->status);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block3->status);
     arena_collect_tag(arena, tag);
 
-    TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, block1->status);
-    TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, block2->status);
+    TEST_ASSERT_NOT_EQUAL(ARENA_STATUS_USED, block1->status);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
+    TEST_ASSERT_NOT_EQUAL(ARENA_STATUS_USED, block3->status);
 }
 
 int main(void) {
@@ -297,6 +304,6 @@ int main(void) {
     RUN_TEST(test_arena_get_block_by_tag);
     RUN_TEST(test_arena_set_tag);
     RUN_TEST(test_arena_get_tag);
-    //RUN_TEST(test_arena_collect_tag);
+    RUN_TEST(test_arena_collect_tag);
     return UNITY_END();
 }
