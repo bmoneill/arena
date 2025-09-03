@@ -166,6 +166,7 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
                 newNext->next = oldNext;
                 newNext->idx = current->idx + size;
                 newNext->size = current->size - size;
+                newNext->status = ARENA_STATUS_FREE;
                 newNext->tag = ARENA_TAG_NONE;
 
                 current->next = newNext;

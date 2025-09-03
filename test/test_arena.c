@@ -116,15 +116,19 @@ void test_arena_realloc_managed(void) {
     void *ptr = arena_malloc(arena, 128);
     TEST_ASSERT_NOT_NULL(ptr);
     memset(ptr, 0xCC, 128);
+    printf("BEFORE FIRST LOOP\n");
     for (size_t i = 0; i < 128; i++) {
         TEST_ASSERT_EQUAL_HEX8(0xCC, ((uint8_t *)ptr)[i]);
     }
 
+    printf("BEFORE REALLOC\n");
     void *new_ptr = arena_realloc(arena, ptr, 256);
     TEST_ASSERT_NOT_NULL(new_ptr);
+    printf("BEFORE SECOND LOOP\n");
     for (size_t i = 0; i < 128; i++) {
         TEST_ASSERT_EQUAL_HEX8(0xCC, ((uint8_t *)new_ptr)[i]);
     }
+        printf("BEFORE THIRD LOOP\n");
     memset(new_ptr, 0xDD, 256);
     for (size_t i = 0; i < 256; i++) {
         TEST_ASSERT_EQUAL_HEX8(0xDD, ((uint8_t *)new_ptr)[i]);
