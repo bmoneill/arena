@@ -7,7 +7,7 @@ predictable and speed is important. Arenas can also be easily dumped for debuggi
 
 ## Features
 
-* Bookkeeping: Blocks are stored in a linked list that utilizes memory allocated upon initialization.
+* Bookkeeping: Block metadata is stored in ArenaBlock structs.
 * Tagging: Each block can have an assigned integer tag. Tags can be used to find blocks and free them if necessary.
 
 Bookkeeping can be disabled for better performance, but tags will not work. When an Arena is initialized with
