@@ -367,11 +367,8 @@ void arena_collect_tag(Arena *arena, int tag) {
     }
 
     ArenaBlock *block;
-    int idx = 0;
-    while ((block = arena_get_block_by_tag(arena, tag, idx))){
-        printf("collecting block with tag %d at idx %u\n", tag, idx);
+    while ((block = arena_get_block_by_tag(arena, tag, 0))){
         arena_free_block(arena, block);
-        idx++;
     }
 }
 
