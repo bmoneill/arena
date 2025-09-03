@@ -1,5 +1,7 @@
 # Arena
 
+[![Build Status](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml).
+
 This is an Arena memory manager with basic bookkeeping and support for basic memory management
 functions (malloc, calloc, realloc, memcpy, and free). Arena memory managers are useful for
 short-lived data, such as game state information, ASTs, and other use-cases where the needed size is
