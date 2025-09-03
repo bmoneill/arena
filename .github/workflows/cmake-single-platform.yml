@@ -53,4 +53,4 @@ jobs:
       run: chmod -R +x ${{ github.workspace }}/build
 
     - name: Run tests
-      run: ${{ github.workspace }}/test/arena_tests
+      run: ${{ github.workspace }}/build/test/arena_tests
