@@ -1,5 +1,6 @@
 #include "arena.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -49,6 +50,7 @@ Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
             arena->head[i - 1].next = &arena->head[i];
             arena->head[i].status = ARENA_STATUS_UNDEFINED;
         }
+        arena->head[maxBlocks - 1].next = NULL;
     } else {
         arena->head = NULL;
         arena->ptr = arena->mem;
@@ -110,7 +112,9 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
         block->prev->next = block;
     }
 
-    tmp->status = ARENA_STATUS_UNDEFINED;
+    if (tmp) {
+        tmp->status = ARENA_STATUS_UNDEFINED;
+    }
     return block->next;
 }
 
@@ -365,9 +369,11 @@ void arena_collect_tag(Arena *arena, int tag) {
     ArenaBlock *block = arena->head;
     ArenaBlock *next = NULL;
 
-    while (block) {
+    while (block && block->status != ARENA_STATUS_UNDEFINED) {
         next = block->next;
+        printf("BLOCK %d %zu\n", block->status,block->idx);
         if (block->tag == tag) {
+            printf("TAGGED\n");
             arena_free_block(arena, block);
         }
         block = next;
