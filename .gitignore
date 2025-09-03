@@ -1,4 +1,4 @@
-*.vgcore
+vgcore.*
 *.o
 *.so
 *.a
@@ -10,3 +10,4 @@ CMakeFiles/
 CMakeCache.txt
 DartConfiguration.tcl
 Makefile
+Testing
