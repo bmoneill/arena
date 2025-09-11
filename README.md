@@ -9,18 +9,21 @@ predictable and speed is important. Arenas can also be easily dumped for debuggi
 
 ## Features
 
-* Bookkeeping: Block metadata is stored in ArenaBlock structs.
-* Tagging: Each block can have an assigned integer tag. Tags can be used to find blocks and free them if necessary.
+* Bookkeeping: Block metadata is internally stored. When a block is freed, that memory may be used by a newly
+  allocated block.
+* Tagging: Each block can have an assigned integer tag. It is possible to find a block by its tag or free all
+  blocks with a given tag.
 
 Bookkeeping can be disabled for better performance, but tags will not work. When an Arena is initialized with
 `managed` set to `false`, whenever malloc or calloc is called, an internal pointer will simply be incremented,
-and blocks will not be created or managed internally.
+and blocks will not be managed internally.
 
 ## Building
 
 ### Linux
 
 ```shell
+cmake .
 cmake --build .
 ```
 
