@@ -87,6 +87,13 @@ void arena_dump(Arena *arena, FILE *f) {
     fwrite(arena->mem, 1, arena->size, f);
 }
 
+/**
+ * @brief Prints a human-readable representation of the arena's blocks to stdout.
+ *
+ * This function can only be used if the arena is in managed mode.
+ *
+ * @param arena Pointer to the Arena structure.
+ */
 void arena_print(Arena *arena) {
     if (!arena->managed) {
         printf("Error: Arena is not managed.\n");
