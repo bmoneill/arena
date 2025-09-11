@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
 #define ARENA_STATUS_FREE 0
@@ -40,6 +41,8 @@ int arena_destroy(Arena *arena);
 ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block);
 ArenaBlock *arena_get_block(Arena *arena, void *p);
 ArenaBlock *arena_alloc(Arena *arena, size_t size);
+void arena_dump(Arena *arena, FILE *f);
+void arena_print(Arena *arena);
 
 /* Standard memory management functions */
 void *arena_malloc(Arena *arena, size_t size);

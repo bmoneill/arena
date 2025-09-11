@@ -78,6 +78,48 @@ int arena_destroy(Arena *arena) {
 }
 
 /**
+ * @brief Dumps the raw memory of the arena to the given file stream.
+ *
+ * @param arena Pointer to the Arena structure.
+ * @param f File stream to write the memory dump to.
+ */
+void arena_dump(Arena *arena, FILE *f) {
+    fwrite(arena->mem, 1, arena->size, f);
+}
+
+void arena_print(Arena *arena) {
+    if (!arena->managed) {
+        printf("Error: Arena is not managed.\n");
+        return;
+    }
+
+    printf("Arena Blocks:\n");
+    printf("Idx\tSize\tStatus\tTag\n");
+    printf("-------------------------------\n");
+
+    ArenaBlock *current = arena->head;
+    while (current) {
+        const char *statusStr;
+        switch (current->status) {
+            case ARENA_STATUS_FREE:
+                statusStr = "FREE";
+                break;
+            case ARENA_STATUS_USED:
+                statusStr = "USED";
+                break;
+            case ARENA_STATUS_UNDEFINED:
+                statusStr = "UNDEF";
+                break;
+            default:
+                statusStr = "UNKNOWN";
+                break;
+        }
+        printf("%zu\t%zu\t%s\t%d\n", current->idx, current->size, statusStr, current->tag);
+        current = current->next;
+    }
+}
+
+/**
  * @brief Free the given block of memory and return the next one
  *
  * This function can only be used if the arena is in managed mode.
