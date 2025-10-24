@@ -20,8 +20,6 @@ and blocks will not be managed internally.
 
 ## Building
 
-### Linux
-
 ```shell
 cmake .
 cmake --build .
