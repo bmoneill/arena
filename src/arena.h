@@ -17,6 +17,7 @@
 #define ARENA_COPY(arena, dst, src) memcpy(ARENA_PTR(arena, dst), ARENA_PTR(arena, src), src->size)
 
 /**
+ * @struct ArenaBlock
  * @brief Arena block structure
  *
  * This structure represents a block of memory within an arena.
@@ -39,6 +40,7 @@ typedef struct arena_block_s {
 } ArenaBlock;
 
 /**
+ * @struct Arena
  * @brief Arena structure
  *
  * This structure represents an arena of memory.
