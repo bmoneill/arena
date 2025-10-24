@@ -3,6 +3,7 @@ vgcore.*
 *.so
 *.a
 arena_tests
+*_runner.c
 
 # CMake
 CMakeFiles/

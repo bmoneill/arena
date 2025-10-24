@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static ArenaBlock *arena_find_empty_block(Arena *arena);
+static ArenaBlock* arena_find_empty_block(Arena* arena);
 
 /**
  * @brief Initializes an Arena with a given size.
@@ -13,17 +13,17 @@ static ArenaBlock *arena_find_empty_block(Arena *arena);
  * @param managed If non-zero, the arena will manage blocks, allowing for freeing and dynamic reallocation.
  * @return A pointer to the initialized Arena structure, or NULL on failure.
  */
-Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
-    Arena *arena;
+Arena* arena_init(size_t size, size_t maxBlocks, int managed) {
+    Arena* arena;
 
-    if (!(arena = (Arena *) malloc(sizeof(Arena)))) {
+    if (!(arena = (Arena*) malloc(sizeof(Arena)))) {
         return NULL;
     }
 
-    arena->idx = 0;
-    arena->size = size;
+    arena->idx       = 0;
+    arena->size      = size;
     arena->maxBlocks = maxBlocks;
-    arena->managed = managed;
+    arena->managed   = managed;
 
     if (!(arena->mem = malloc(size))) {
         free(arena);
@@ -31,28 +31,28 @@ Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
     }
 
     if (managed) {
-        if (!(arena->head = (ArenaBlock *) malloc(sizeof(ArenaBlock) * maxBlocks))) {
+        if (!(arena->head = (ArenaBlock*) malloc(sizeof(ArenaBlock) * maxBlocks))) {
             free(arena->mem);
             free(arena);
             return NULL;
         }
-        arena->head[0].idx = 0;
-        arena->head[0].size = size;
-        arena->head[0].tag = ARENA_TAG_NONE;
+        arena->head[0].idx    = 0;
+        arena->head[0].size   = size;
+        arena->head[0].tag    = ARENA_TAG_NONE;
         arena->head[0].status = ARENA_STATUS_FREE;
-        arena->head[0].prev = NULL;
+        arena->head[0].prev   = NULL;
         for (size_t i = 1; i < maxBlocks; i++) {
-            arena->head[i].idx = -1;
-            arena->head[i].size = 0;
-            arena->head[i].tag = ARENA_TAG_NONE;
-            arena->head[i].prev = &arena->head[i - 1];
+            arena->head[i].idx      = -1;
+            arena->head[i].size     = 0;
+            arena->head[i].tag      = ARENA_TAG_NONE;
+            arena->head[i].prev     = &arena->head[i - 1];
             arena->head[i - 1].next = &arena->head[i];
-            arena->head[i].status = ARENA_STATUS_UNDEFINED;
+            arena->head[i].status   = ARENA_STATUS_UNDEFINED;
         }
         arena->head[maxBlocks - 1].next = NULL;
     } else {
         arena->head = NULL;
-        arena->ptr = arena->mem;
+        arena->ptr  = arena->mem;
     }
 
     return arena;
@@ -64,7 +64,7 @@ Arena *arena_init(size_t size, size_t maxBlocks, int managed) {
  * @param arena Pointer to the Arena structure to destroy.
  * @return 1 on success.
  */
-int arena_destroy(Arena *arena) {
+int arena_destroy(Arena* arena) {
     if (arena->mem) {
         free(arena->mem);
     }
@@ -83,9 +83,7 @@ int arena_destroy(Arena *arena) {
  * @param arena Pointer to the Arena structure.
  * @param f File stream to write the memory dump to.
  */
-void arena_dump(Arena *arena, FILE *f) {
-    fwrite(arena->mem, 1, arena->size, f);
-}
+void arena_dump(Arena* arena, FILE* f) { fwrite(arena->mem, 1, arena->size, f); }
 
 /**
  * @brief Prints a human-readable representation of the arena's blocks to stdout.
@@ -94,7 +92,7 @@ void arena_dump(Arena *arena, FILE *f) {
  *
  * @param arena Pointer to the Arena structure.
  */
-void arena_print(Arena *arena) {
+void arena_print(Arena* arena) {
     if (!arena->managed) {
         printf("Error: Arena is not managed.\n");
         return;
@@ -104,22 +102,22 @@ void arena_print(Arena *arena) {
     printf("Idx\tSize\tStatus\tTag\n");
     printf("-------------------------------\n");
 
-    ArenaBlock *current = arena->head;
+    ArenaBlock* current = arena->head;
     while (current) {
-        const char *statusStr;
+        const char* statusStr;
         switch (current->status) {
-            case ARENA_STATUS_FREE:
-                statusStr = "FREE";
-                break;
-            case ARENA_STATUS_USED:
-                statusStr = "USED";
-                break;
-            case ARENA_STATUS_UNDEFINED:
-                statusStr = "UNDEF";
-                break;
-            default:
-                statusStr = "UNKNOWN";
-                break;
+        case ARENA_STATUS_FREE:
+            statusStr = "FREE";
+            break;
+        case ARENA_STATUS_USED:
+            statusStr = "USED";
+            break;
+        case ARENA_STATUS_UNDEFINED:
+            statusStr = "UNDEF";
+            break;
+        default:
+            statusStr = "UNKNOWN";
+            break;
         }
         printf("%zu\t%zu\t%s\t%d\n", current->idx, current->size, statusStr, current->tag);
         current = current->next;
@@ -135,19 +133,19 @@ void arena_print(Arena *arena) {
  * @param block Pointer to the ArenaBlock to free.
  * @return Pointer to the next ArenaBlock after the freed block.
  */
-ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
+ArenaBlock* arena_free_block(Arena* arena, ArenaBlock* block) {
     if (!arena->managed) {
         return NULL;
     }
 
-    ArenaBlock *tmp = NULL;
-    block->status = ARENA_STATUS_FREE;
-    block->tag = ARENA_TAG_NONE;
+    ArenaBlock* tmp = NULL;
+    block->status   = ARENA_STATUS_FREE;
+    block->tag      = ARENA_TAG_NONE;
 
     if (block->next != NULL && block->next->status == ARENA_STATUS_FREE) {
         block->size += block->next->size;
-        tmp = block->next;
-        block->next = block->next->next;
+        tmp               = block->next;
+        block->next       = block->next->next;
         block->next->prev = block;
     }
 
@@ -155,8 +153,8 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
         block->idx = block->prev->idx;
         block->size += block->prev->size;
 
-        tmp = block->prev;
-        block->prev = block->prev->prev;
+        tmp               = block->prev;
+        block->prev       = block->prev->prev;
         block->prev->next = block;
     }
 
@@ -165,7 +163,6 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
     }
     return block->next;
 }
-
 
 /**
  * @brief Retrieves the ArenaBlock corresponding to the given pointer.
@@ -176,13 +173,13 @@ ArenaBlock *arena_free_block(Arena *arena, ArenaBlock *block) {
  * @param p Pointer to the memory block.
  * @return Pointer to the corresponding ArenaBlock, or NULL if not found.
  */
-ArenaBlock *arena_get_block(Arena *arena, void *p) {
+ArenaBlock* arena_get_block(Arena* arena, void* p) {
     if (!arena->managed) {
         return NULL;
     }
 
-    ArenaBlock *current = arena->head;
-    size_t idx = (size_t)((char *)p - (char *)arena->mem);
+    ArenaBlock* current = arena->head;
+    size_t      idx     = (size_t) ((char*) p - (char*) arena->mem);
 
     while (current) {
         if (current->idx == idx) {
@@ -201,28 +198,28 @@ ArenaBlock *arena_get_block(Arena *arena, void *p) {
  * @param size Size of the memory block to allocate.
  * @return Pointer to the allocated ArenaBlock, or NULL if allocation fails.
  */
-ArenaBlock *arena_alloc(Arena *arena, size_t size) {
+ArenaBlock* arena_alloc(Arena* arena, size_t size) {
     if (!arena->managed) {
         return NULL;
     }
 
-    ArenaBlock *current = arena->head;
+    ArenaBlock* current = arena->head;
     while (current) {
         if (current->status == ARENA_STATUS_FREE && current->size >= size) {
             if (current->size > size) {
                 // Create another block in between
-                ArenaBlock *oldNext = current->next;
-                ArenaBlock *newNext;
+                ArenaBlock* oldNext = current->next;
+                ArenaBlock* newNext;
 
-                newNext = arena_find_empty_block(arena);
-                newNext->next = oldNext;
-                newNext->idx = current->idx + size;
-                newNext->size = current->size - size;
+                newNext         = arena_find_empty_block(arena);
+                newNext->next   = oldNext;
+                newNext->idx    = current->idx + size;
+                newNext->size   = current->size - size;
                 newNext->status = ARENA_STATUS_FREE;
-                newNext->tag = ARENA_TAG_NONE;
+                newNext->tag    = ARENA_TAG_NONE;
 
-                current->next = newNext;
-                current->size = size;
+                current->next   = newNext;
+                current->size   = size;
             }
             current->status = ARENA_STATUS_USED;
             return current;
@@ -240,14 +237,14 @@ ArenaBlock *arena_alloc(Arena *arena, size_t size) {
  * @param size Size of the memory block to allocate.
  * @return Pointer to the allocated memory, or NULL if allocation fails.
  */
-void *arena_malloc(Arena *arena, size_t size) {
+void* arena_malloc(Arena* arena, size_t size) {
     if (!arena->managed) {
-        void *oldHead = arena->ptr;
-        arena->ptr = (char *)arena->ptr + size;
+        void* oldHead = arena->ptr;
+        arena->ptr    = (char*) arena->ptr + size;
         return oldHead;
     }
 
-    ArenaBlock *block = arena_alloc(arena, size);
+    ArenaBlock* block = arena_alloc(arena, size);
     if (!block) {
         return NULL;
     }
@@ -263,8 +260,8 @@ void *arena_malloc(Arena *arena, size_t size) {
  * @param size Size of each element.
  * @return Pointer to the allocated memory, or NULL on failure.
  */
-void *arena_calloc(Arena *arena, size_t num, size_t size) {
-    void *result = arena_malloc(arena, num * size);
+void* arena_calloc(Arena* arena, size_t num, size_t size) {
+    void* result = arena_malloc(arena, num * size);
     memset(result, 0, num * size);
     return result;
 }
@@ -279,12 +276,12 @@ void *arena_calloc(Arena *arena, size_t num, size_t size) {
  * @param size New size for the memory block.
  * @return Pointer to the reallocated memory, or NULL on failure.
  */
-void *arena_realloc(Arena *arena, void *p, size_t size) {
+void* arena_realloc(Arena* arena, void* p, size_t size) {
     if (!arena->managed) {
         return NULL;
     }
 
-    ArenaBlock *block = arena_get_block(arena, p);
+    ArenaBlock* block = arena_get_block(arena, p);
     if (!block) {
         // Invalid block
         return NULL;
@@ -295,10 +292,10 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
         return p;
     } else if (size < block->size) {
         // New size less than old size
-        int oldSize = block->size;
-        int delta = oldSize - size;
-        block->size = size;
-        ArenaBlock *next = block->next;
+        int oldSize      = block->size;
+        int delta        = oldSize - size;
+        block->size      = size;
+        ArenaBlock* next = block->next;
         if (next) {
             if (next->status == ARENA_STATUS_FREE) {
                 // Expand next block
@@ -306,24 +303,24 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
                 next->size += delta;
             } else {
                 // Create new free block in between
-                ArenaBlock *oldNext = next;
-                if (!(next = (ArenaBlock *) malloc(sizeof(ArenaBlock)))) {
+                ArenaBlock* oldNext = next;
+                if (!(next = (ArenaBlock*) malloc(sizeof(ArenaBlock)))) {
                     return NULL;
                 }
 
-                block->next = next;
-                next->size = delta;
-                next->idx = block->idx + size;
+                block->next  = next;
+                next->size   = delta;
+                next->idx    = block->idx + size;
                 next->status = ARENA_STATUS_FREE;
-                next->next = oldNext;
-                next->prev = block;
+                next->next   = oldNext;
+                next->prev   = block;
             }
         }
 
         return p;
     } else {
         // New size greater than old size
-        ArenaBlock *newBlock = arena_malloc(arena, size);
+        ArenaBlock* newBlock = arena_malloc(arena, size);
         ARENA_COPY(arena, newBlock, block);
         arena_free_block(arena, block);
         return ARENA_PTR(arena, newBlock);
@@ -340,13 +337,13 @@ void *arena_realloc(Arena *arena, void *p, size_t size) {
  * @param p Pointer to the memory block to free.
  * @return 1 on success, 0 on failure.
  */
-int arena_free(Arena *arena, void *p) {
+int arena_free(Arena* arena, void* p) {
     if (!arena->managed) {
         return ARENA_FAILURE;
     }
 
-    ArenaBlock *tmp;
-    ArenaBlock *block = arena_get_block(arena, p);
+    ArenaBlock* tmp;
+    ArenaBlock* block = arena_get_block(arena, p);
     if (!block) {
         // Couldn't find block from pointer
         return ARENA_FAILURE;
@@ -365,12 +362,12 @@ int arena_free(Arena *arena, void *p) {
  * @param p Pointer to the memory block.
  * @return The tag of the block, or ARENA_FAILURE if the block is not found.
  */
-int arena_get_tag(Arena *arena, void *p) {
+int arena_get_tag(Arena* arena, void* p) {
     if (!arena->managed) {
         return ARENA_FAILURE;
     }
 
-    ArenaBlock *block = arena_get_block(arena, p);
+    ArenaBlock* block = arena_get_block(arena, p);
     if (block) {
         return block->tag;
     }
@@ -387,12 +384,12 @@ int arena_get_tag(Arena *arena, void *p) {
  * @param tag The tag value to set.
  * @return ARENA_SUCCESS on success, ARENA_FAILURE if the block is not found.
  */
-int arena_set_tag(Arena *arena, void *p, int tag) {
+int arena_set_tag(Arena* arena, void* p, int tag) {
     if (!arena->managed) {
         return ARENA_FAILURE;
     }
 
-    ArenaBlock *block = arena_get_block(arena, p);
+    ArenaBlock* block = arena_get_block(arena, p);
     if (block) {
         block->tag = tag;
         return ARENA_SUCCESS;
@@ -409,13 +406,13 @@ int arena_set_tag(Arena *arena, void *p, int tag) {
  * @param arena Pointer to the Arena structure.
  * @param tag The tag value to collect.
  */
-void arena_collect_tag(Arena *arena, int tag) {
+void arena_collect_tag(Arena* arena, int tag) {
     if (!arena->managed) {
         return;
     }
 
-    ArenaBlock *block;
-    while ((block = arena_get_block_by_tag(arena, tag, 0))){
+    ArenaBlock* block;
+    while ((block = arena_get_block_by_tag(arena, tag, 0))) {
         arena_free_block(arena, block);
     }
 }
@@ -430,14 +427,14 @@ void arena_collect_tag(Arena *arena, int tag) {
  * @param n The index of the block to retrieve.
  * @return Pointer to the n-th ArenaBlock with the specified tag, or NULL if not found.
  */
-ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
+ArenaBlock* arena_get_block_by_tag(Arena* arena, int tag, int n) {
     if (!arena->managed) {
         return NULL;
     }
 
     int count = 0;
     for (size_t i = 0; i < arena->maxBlocks; i++) {
-        ArenaBlock *block = &arena->head[i];
+        ArenaBlock* block = &arena->head[i];
         if (block->tag == tag && block->status == ARENA_STATUS_USED) {
             if (count == n) {
                 return block;
@@ -459,12 +456,12 @@ ArenaBlock *arena_get_block_by_tag(Arena *arena, int tag, int n) {
  * @param n The index of the block to retrieve.
  * @return Pointer to the n-th memory block with the specified tag, or NULL if not found.
  */
-void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
+void* arena_get_ptr_by_tag(Arena* arena, int tag, int n) {
     if (!arena->managed) {
         return NULL;
     }
 
-    ArenaBlock *block = arena_get_block_by_tag(arena, tag, n);
+    ArenaBlock* block = arena_get_block_by_tag(arena, tag, n);
     if (block) {
         return ARENA_PTR(arena, block);
     }
@@ -480,13 +477,13 @@ void *arena_get_ptr_by_tag(Arena *arena, int tag, int n) {
  * @param arena Pointer to the Arena structure.
  * @return Pointer to an empty ArenaBlock, or NULL if none are available.
  */
-static ArenaBlock *arena_find_empty_block(Arena *arena) {
+static ArenaBlock* arena_find_empty_block(Arena* arena) {
     if (!arena->managed) {
         return NULL;
     }
 
-    ArenaBlock *current = arena->head;
-    size_t count = 0;
+    ArenaBlock* current = arena->head;
+    size_t      count   = 0;
 
     for (size_t i = 0; i < arena->maxBlocks; i++) {
         if (current->status == ARENA_STATUS_UNDEFINED) {
