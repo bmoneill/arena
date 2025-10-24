@@ -64,6 +64,7 @@ var NAVTREEINDEX0 =
 "structArena.html#a8ff69266b2f44d218fdfe0c9d6950409":[0,0,0,2],
 "structArena.html#add9af9569af79ec26dd741fb226b38ba":[0,0,0,5],
 "structArena.html#af53000b4de740c75311f31c1fd96b786":[0,0,0,3],
+"structArenaBlock.html":[0,0,2],
 "structarena__block__s.html":[0,0,1],
 "structarena__block__s.html#a0b6cbd98366907ecd5a0458c0c5acf18":[0,0,1,1],
 "structarena__block__s.html#a103fe1fcacccda7d9cdacde44721faef":[0,0,1,0],

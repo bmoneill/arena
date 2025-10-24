@@ -113,13 +113,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a66760de487a939e3f4bdbd2f71ff1ede"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a66760de487a939e3f4bdbd2f71ff1ede">arena_print</a> (<a class="el" href="structArena.html">Arena</a> *arena)</td></tr>
 <tr class="memdesc:a66760de487a939e3f4bdbd2f71ff1ede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a human-readable representation of the arena's blocks to stdout.  <br /></td></tr>
 <tr class="separator:a66760de487a939e3f4bdbd2f71ff1ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3792b8f99a32fb4d037621ad7ad1909b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a3792b8f99a32fb4d037621ad7ad1909b">arena_free_block</a> (<a class="el" href="structArena.html">Arena</a> *arena, <a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *block)</td></tr>
+<tr class="memitem:a3792b8f99a32fb4d037621ad7ad1909b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArenaBlock.html">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a3792b8f99a32fb4d037621ad7ad1909b">arena_free_block</a> (<a class="el" href="structArena.html">Arena</a> *arena, <a class="el" href="structArenaBlock.html">ArenaBlock</a> *block)</td></tr>
 <tr class="memdesc:a3792b8f99a32fb4d037621ad7ad1909b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free the given block of memory and return the next one.  <br /></td></tr>
 <tr class="separator:a3792b8f99a32fb4d037621ad7ad1909b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a20771cd97fff97fe62fcdd18893c72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a3a20771cd97fff97fe62fcdd18893c72">arena_get_block</a> (<a class="el" href="structArena.html">Arena</a> *arena, void *p)</td></tr>
-<tr class="memdesc:a3a20771cd97fff97fe62fcdd18893c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the ArenaBlock corresponding to the given pointer.  <br /></td></tr>
+<tr class="memitem:a3a20771cd97fff97fe62fcdd18893c72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArenaBlock.html">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a3a20771cd97fff97fe62fcdd18893c72">arena_get_block</a> (<a class="el" href="structArena.html">Arena</a> *arena, void *p)</td></tr>
+<tr class="memdesc:a3a20771cd97fff97fe62fcdd18893c72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> corresponding to the given pointer.  <br /></td></tr>
 <tr class="separator:a3a20771cd97fff97fe62fcdd18893c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15b40eab9e14e6c40209f811a2c6316a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a15b40eab9e14e6c40209f811a2c6316a">arena_alloc</a> (<a class="el" href="structArena.html">Arena</a> *arena, size_t size)</td></tr>
+<tr class="memitem:a15b40eab9e14e6c40209f811a2c6316a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArenaBlock.html">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a15b40eab9e14e6c40209f811a2c6316a">arena_alloc</a> (<a class="el" href="structArena.html">Arena</a> *arena, size_t size)</td></tr>
 <tr class="memdesc:a15b40eab9e14e6c40209f811a2c6316a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates a block of memory of the specified size within the arena.  <br /></td></tr>
 <tr class="separator:a15b40eab9e14e6c40209f811a2c6316a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af931efc8c26646739f28f816a3639300"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#af931efc8c26646739f28f816a3639300">arena_malloc</a> (<a class="el" href="structArena.html">Arena</a> *arena, size_t size)</td></tr>
@@ -143,7 +143,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a596f20c8a28260a2c93c8ef56d0a1d57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a596f20c8a28260a2c93c8ef56d0a1d57">arena_collect_tag</a> (<a class="el" href="structArena.html">Arena</a> *arena, int tag)</td></tr>
 <tr class="memdesc:a596f20c8a28260a2c93c8ef56d0a1d57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees all memory blocks with the specified tag.  <br /></td></tr>
 <tr class="separator:a596f20c8a28260a2c93c8ef56d0a1d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f6dae8744cfd2f08ecec551bef56153"><td class="memItemLeft" align="right" valign="top"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a2f6dae8744cfd2f08ecec551bef56153">arena_get_block_by_tag</a> (<a class="el" href="structArena.html">Arena</a> *arena, int tag, int n)</td></tr>
+<tr class="memitem:a2f6dae8744cfd2f08ecec551bef56153"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArenaBlock.html">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a2f6dae8744cfd2f08ecec551bef56153">arena_get_block_by_tag</a> (<a class="el" href="structArena.html">Arena</a> *arena, int tag, int n)</td></tr>
 <tr class="memdesc:a2f6dae8744cfd2f08ecec551bef56153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the n-th block with the specified tag.  <br /></td></tr>
 <tr class="separator:a2f6dae8744cfd2f08ecec551bef56153"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6956cbfe83992248ad2039b471ddcdf4"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8c.html#a6956cbfe83992248ad2039b471ddcdf4">arena_get_ptr_by_tag</a> (<a class="el" href="structArena.html">Arena</a> *arena, int tag, int n)</td></tr>
@@ -158,7 +158,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> * arena_alloc </td>
+          <td class="memname"><a class="el" href="structArenaBlock.html">ArenaBlock</a> * arena_alloc </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structArena.html">Arena</a> *&#160;</td>
           <td class="paramname"><em>arena</em>, </td>
@@ -185,7 +185,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the allocated ArenaBlock, or NULL if allocation fails. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the allocated <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a>, or NULL if allocation fails. </dd></dl>
 
 </div>
 </div>
@@ -382,7 +382,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> * arena_free_block </td>
+          <td class="memname"><a class="el" href="structArenaBlock.html">ArenaBlock</a> * arena_free_block </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structArena.html">Arena</a> *&#160;</td>
           <td class="paramname"><em>arena</em>, </td>
@@ -390,7 +390,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structArenaBlock.html">ArenaBlock</a> *&#160;</td>
           <td class="paramname"><em>block</em>&#160;</td>
         </tr>
         <tr>
@@ -406,11 +406,11 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">arena</td><td>Pointer to the <a class="el" href="structArena.html" title="Arena structure.">Arena</a> structure. </td></tr>
-    <tr><td class="paramname">block</td><td>Pointer to the ArenaBlock to free. </td></tr>
+    <tr><td class="paramname">block</td><td>Pointer to the <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> to free. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the next ArenaBlock after the freed block. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the next <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> after the freed block. </dd></dl>
 
 </div>
 </div>
@@ -421,7 +421,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> * arena_get_block </td>
+          <td class="memname"><a class="el" href="structArenaBlock.html">ArenaBlock</a> * arena_get_block </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structArena.html">Arena</a> *&#160;</td>
           <td class="paramname"><em>arena</em>, </td>
@@ -440,7 +440,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Retrieves the ArenaBlock corresponding to the given pointer. </p>
+<p>Retrieves the <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> corresponding to the given pointer. </p>
 <p>This function can only be used if the arena is in managed mode.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -449,7 +449,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the corresponding ArenaBlock, or NULL if not found. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the corresponding <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a>, or NULL if not found. </dd></dl>
 
 </div>
 </div>
@@ -460,7 +460,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> * arena_get_block_by_tag </td>
+          <td class="memname"><a class="el" href="structArenaBlock.html">ArenaBlock</a> * arena_get_block_by_tag </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structArena.html">Arena</a> *&#160;</td>
           <td class="paramname"><em>arena</em>, </td>
@@ -495,7 +495,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Pointer to the n-th ArenaBlock with the specified tag, or NULL if not found. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the n-th <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> with the specified tag, or NULL if not found. </dd></dl>
 
 </div>
 </div>
