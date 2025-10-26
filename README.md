@@ -1,6 +1,8 @@
 # Arena
 
-[![Build Status](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml).
+[![Build Status](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml)
+[![Doxygen Status](https://github.com/bmoneill/arena/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/arena)
+[![Clang-format status](https://github.com/bmoneill/arena/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/clang-format.yml)
 
 This is an Arena memory manager with basic bookkeeping and support for basic memory management
 functions (malloc, calloc, realloc, memcpy, and free). Arena memory managers are useful for
