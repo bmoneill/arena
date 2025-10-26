@@ -1,7 +1,4 @@
-
 project("libarena" C)
-
-set(PROJECT_NAME "libarena")
 
 set(LIBRARY_NAME "arena")
 set(LIBRARY_VERSION_MAJOR 0)
@@ -9,7 +6,7 @@ set(LIBRARY_VERSION_STRING 0.0)
 
 include(GNUInstallDirs)
 
-set(LIBRARY_BASE_PATH ".")
+set(LIBRARY_BASE_PATH "arena")
 
 INCLUDE_DIRECTORIES (
 	"${LIBRARY_BASE_PATH}"
