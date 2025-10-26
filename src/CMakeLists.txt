@@ -6,18 +6,18 @@ set(LIBRARY_VERSION_STRING 0.0)
 
 include(GNUInstallDirs)
 
-set(LIBRARY_BASE_PATH "arena")
+set(LIBRARY_BASE_PATH ".")
 
 INCLUDE_DIRECTORIES (
 	"${LIBRARY_BASE_PATH}"
 )
 
 set(LIBRARY_PUBLIC_SRC
-	"${LIBRARY_BASE_PATH}/arena.c"
+	"${LIBRARY_BASE_PATH}/arena/arena.c"
 )
 
 set(LIBRARY_PUBLIC_HEADERS
-	"${LIBRARY_BASE_PATH}/arena.h"
+	"${LIBRARY_BASE_PATH}/arena/arena.h"
 )
 
 add_library (
