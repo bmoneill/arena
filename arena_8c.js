@@ -15,5 +15,6 @@ var arena_8c =
     [ "arena_malloc", "arena_8c.html#af931efc8c26646739f28f816a3639300", null ],
     [ "arena_print", "arena_8c.html#a66760de487a939e3f4bdbd2f71ff1ede", null ],
     [ "arena_realloc", "arena_8c.html#a6ac18ec57bb8d8422d5bd9fb919f18ab", null ],
-    [ "arena_set_tag", "arena_8c.html#ab38883544a6101a5a77a95db3aa5063f", null ]
+    [ "arena_set_tag", "arena_8c.html#ab38883544a6101a5a77a95db3aa5063f", null ],
+    [ "arena_version", "arena_8c.html#ac5653fdcfcb45582e491b9034bc4afab", null ]
 ];
