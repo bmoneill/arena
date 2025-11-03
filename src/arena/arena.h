@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifndef LIBARENA_VERSION
+#define LIBARENA_VERSION "unknown"
+#endif
+
 #define ARENA_STATUS_FREE      0
 #define ARENA_STATUS_USED      1
 #define ARENA_STATUS_UNDEFINED 2
@@ -86,5 +90,7 @@ int         arena_set_tag(Arena* arena, void* p, int tag);
 void        arena_collect_tag(Arena* arena, int tag);
 ArenaBlock* arena_get_block_by_tag(Arena* arena, int tag, int n);
 void*       arena_get_ptr_by_tag(Arena* arena, int tag, int n);
+
+const char* arena_version();
 
 #endif
