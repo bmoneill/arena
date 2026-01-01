@@ -41,6 +41,10 @@ cd build
 ctest --verbose
 ```
 
+## Documentation
+
+[Library documentation is available here](https://bmoneill.github.io/arena/).
+
 ## Further Reading
 
 * [Fallout's Memory Model](https://youtu.be/6kB_fko6SIg)
