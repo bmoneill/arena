@@ -23,16 +23,22 @@ and blocks will not be managed internally.
 ## Building
 
 ```shell
-cmake .
-cmake --build .
+# build library
+cmake -S . -B build -DTARGET_GROUP=all
+cmake --build build
+
+# install
+cmake --install build
 ```
 
 ## Testing
 
 ```shell
-cmake -DTARGET_GROUP='test' .
-cmake --build .
-ctest .
+git submodule update
+cmake -S . -B build -DTARGET_GROUP=test
+cmake --build build
+cd build
+ctest --verbose
 ```
 
 ## Further Reading

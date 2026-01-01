@@ -1,14 +1,6 @@
 vgcore.*
-*.o
-*.so
-*.a
-arena_tests
-*_runner.c
+build
 
-# CMake
-CMakeFiles/
-*.cmake
-CMakeCache.txt
-DartConfiguration.tcl
-Makefile
-Testing
+# Editor stuff
+.clangd
+.zed
