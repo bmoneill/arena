@@ -10,7 +10,7 @@ var arena_8h =
     [ "ARENA_STATUS_USED", "arena_8h.html#a19963aa8c39eb2315e066e77ed3a3315", null ],
     [ "ARENA_SUCCESS", "arena_8h.html#ae0ed91b25c305280f9b71295fe1a3360", null ],
     [ "ARENA_TAG_NONE", "arena_8h.html#a3841db0165c9b74da1d60761394ff26a", null ],
-    [ "LIBARENA_VERSION", "arena_8h.html#a97d0f71a8ff9d19338bbadd55e67d084", null ],
+    [ "ARENA_VERSION", "arena_8h.html#a9dce98e1cd1cfcf07d7955343f80d526", null ],
     [ "ArenaBlock", "arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32", null ],
     [ "arena_alloc", "arena_8h.html#a15b40eab9e14e6c40209f811a2c6316a", null ],
     [ "arena_calloc", "arena_8h.html#a6c804971537a6f112e6a2936d5b85940", null ],
