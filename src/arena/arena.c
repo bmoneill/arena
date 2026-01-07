@@ -239,8 +239,12 @@ ArenaBlock* arena_alloc(Arena* arena, size_t size) {
  */
 void* arena_malloc(Arena* arena, size_t size) {
     if (!arena->managed) {
-        void* oldHead = arena->ptr;
-        arena->ptr    = (char*) arena->ptr + size;
+        void*  oldHead = arena->ptr;
+        size_t oldSize = (size_t) (arena->ptr) - (size_t) (arena->mem);
+        if (size + oldSize > arena->size) {
+            return NULL;
+        }
+        arena->ptr = (char*) arena->ptr + size;
         return oldHead;
     }
 
@@ -262,6 +266,9 @@ void* arena_malloc(Arena* arena, size_t size) {
  */
 void* arena_calloc(Arena* arena, size_t num, size_t size) {
     void* result = arena_malloc(arena, num * size);
+    if (result == NULL) {
+        return NULL;
+    }
     memset(result, 0, num * size);
     return result;
 }

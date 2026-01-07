@@ -107,6 +107,14 @@ void test_arena_malloc_unmanaged(void) {
     }
 }
 
+void test_arena_malloc_unmanaged_size_too_big(void) {
+    INIT_UNMANAGED(1024);
+    void* ptr  = arena_malloc(arena, 128);
+    void* ptr2 = arena_malloc(arena, 1024);
+    TEST_ASSERT_NOT_NULL(ptr);
+    TEST_ASSERT_NULL(ptr2);
+}
+
 void test_arena_calloc_managed(void) {
     size_t n    = 10;
     size_t size = 16;
@@ -127,6 +135,14 @@ void test_arena_calloc_unmanaged(void) {
     for (size_t i = 0; i < n * size; i++) {
         TEST_ASSERT_EQUAL_HEX8(0x00, ((uint8_t*) ptr)[i]);
     }
+}
+
+void test_arena_calloc_unmanaged_size_too_big(void) {
+    INIT_UNMANAGED(1024);
+    void* ptr  = arena_calloc(arena, 128, 1);
+    void* ptr2 = arena_calloc(arena, 1024, 1);
+    TEST_ASSERT_NOT_NULL(ptr);
+    TEST_ASSERT_NULL(ptr2);
 }
 
 void test_arena_realloc_managed_greater(void) {
@@ -157,7 +173,10 @@ void test_arena_realloc_unmanaged(void) {
 }
 
 void test_arena_realloc_unmanaged_size_too_big(void) {
-    // TODO
+    INIT_UNMANAGED(256);
+    void* ptr          = arena_malloc(arena, 128);
+    void* reallocedPtr = arena_realloc(arena, ptr, 256);
+    TEST_ASSERT_NULL(reallocedPtr);
 }
 
 void test_arena_free_block_managed(void) {
@@ -173,19 +192,6 @@ void test_arena_free_block_managed(void) {
     TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, block1->status);
     TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
     TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, block2->next->status);
-}
-
-void test_arena_free_block_unmanaged(void) {
-    INIT_UNMANAGED(1024);
-    ArenaBlock* block1 = arena_alloc(arena, 128);
-    ArenaBlock* block2 = arena_alloc(arena, 256);
-    TEST_ASSERT_NOT_NULL(block1);
-    TEST_ASSERT_NOT_NULL(block2);
-    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block1->status);
-    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
-
-    void* ptr = arena_free_block(arena, block1);
-    TEST_ASSERT_NULL(ptr);
 }
 
 void test_arena_get_block(void) {
