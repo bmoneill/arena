@@ -25,15 +25,7 @@
 var NAVTREE =
 [
   [ "libarena", "index.html", [
-    [ "Arena", "md_README.html", [
-      [ "Features", "md_README.html#autotoc_md1", null ],
-      [ "Building", "md_README.html#autotoc_md2", null ],
-      [ "Testing", "md_README.html#autotoc_md3", null ],
-      [ "Documentation", "md_README.html#autotoc_md4", null ],
-      [ "Further Reading", "md_README.html#autotoc_md5", null ],
-      [ "Bugs", "md_README.html#autotoc_md6", null ],
-      [ "License", "md_README.html#autotoc_md7", null ]
-    ] ],
+    [ "Arena", "index.html", "index" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
