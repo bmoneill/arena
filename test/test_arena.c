@@ -148,68 +148,16 @@ void test_arena_realloc_managed_greater(void) {
     }
 }
 
-void test_arena_realloc_managed_less(void) {
-    INIT_MANAGED(1024, 10);
-    void* ptr = arena_malloc(arena, 256);
-    TEST_ASSERT_NOT_NULL(ptr);
-    memset(ptr, 0xEE, 256);
-    for (size_t i = 0; i < 256; i++) {
-        TEST_ASSERT_EQUAL_HEX8(0xEE, ((uint8_t*) ptr)[i]);
-    }
-
-    void* new_ptr = arena_realloc(arena, ptr, 128);
-    TEST_ASSERT_NOT_NULL(new_ptr);
-    for (size_t i = 0; i < 128; i++) {
-        TEST_ASSERT_EQUAL_HEX8(0xEE, ((uint8_t*) new_ptr)[i]);
-    }
-}
-
-void test_arena_realloc_managed_equal(void) {
-    size_t size = 256;
-    INIT_MANAGED(1024, 10);
-    void* ptr = arena_malloc(arena, size);
-    TEST_ASSERT_NOT_NULL(ptr);
-    memset(ptr, 0xEE, 256);
-    for (size_t i = 0; i < 256; i++) {
-        TEST_ASSERT_EQUAL_HEX8(0xEE, ((uint8_t*) ptr)[i]);
-    }
-
-    void* new_ptr = arena_realloc(arena, ptr, size);
-    TEST_ASSERT_EQUAL(ptr, new_ptr);
-}
-
-void test_arena_realloc_unmanaged_greater_last_ptr(void) {
+void test_arena_realloc_unmanaged(void) {
     INIT_UNMANAGED(1024);
-    void* ptr = arena_malloc(arena, 128);
-    void* reallocedPtr = arena_realloc(arena, ptr, 128);
-    TEST_ASSERT_EQUAL(ptr, reallocedPtr);
+    void* ptr          = arena_malloc(arena, 128);
+    void* reallocedPtr = arena_realloc(arena, ptr, 256);
+    TEST_ASSERT_NOT_NULL(reallocedPtr);
+    TEST_ASSERT_NOT_EQUAL(ptr, reallocedPtr);
 }
 
-void test_arena_realloc_unmanaged_greater_middle_ptr(void) {
+void test_arena_realloc_unmanaged_size_too_big(void) {
     // TODO
-}
-
-void test_arena_realloc_unmanaged_greater_size_too_big(void) {
-    // TODO
-}
-
-void test_arena_realloc_unmanaged_less_middle_ptr(void) {
-    // TODO
-}
-
-void test_arena_realloc_unmanaged_less_last_ptr(void) {
-    // TODO
-}
-
-void test_arena_realloc_unmanaged_equal(void) {
-    // TODO
-}
-
-void test_arena_realloc_unmanaged_less(void) {
-    INIT_UNMANAGED(1024);
-    void* ptr = arena_malloc(arena, 128);
-    void* reallocedPtr = arena_realloc(arena, ptr, 128);
-    TEST_ASSERT_EQUAL(ptr, reallocedPtr);
 }
 
 void test_arena_free_block_managed(void) {

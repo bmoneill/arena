@@ -276,17 +276,11 @@ void* arena_calloc(Arena* arena, size_t num, size_t size) {
  */
 void* arena_realloc(Arena* arena, void* p, size_t size) {
     if (!arena->managed) {
-        if (p == (void*) (arena + arena->idx)) {
-            return p;
-        } else {
-            void* newP = arena_alloc(arena, size);
-            if (newP != NULL) {
-                memcpy(newP, p, size);
-            }
-            return newP;
+        void* newP = arena_malloc(arena, size);
+        if (newP != NULL) {
+            memcpy(newP, p, size);
         }
-
-        return NULL;
+        return newP;
     }
 
     ArenaBlock* block = arena_get_block(arena, p);
