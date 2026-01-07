@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('arena_8h.html',''); initResizable(); }
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">arena.h File Reference</div></div>
 </div><!--header-->
@@ -116,28 +117,37 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a9dce98e1cd1cfcf07d7955343f80d526"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a9dce98e1cd1cfcf07d7955343f80d526">ARENA_VERSION</a>&#160;&#160;&#160;&quot;unknown&quot;</td></tr>
+<tr class="memdesc:a9dce98e1cd1cfcf07d7955343f80d526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version of libarena.  <br /></td></tr>
 <tr class="separator:a9dce98e1cd1cfcf07d7955343f80d526"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a363357413557f53937e9b510a085d07a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a363357413557f53937e9b510a085d07a">ARENA_STATUS_FREE</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a363357413557f53937e9b510a085d07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19963aa8c39eb2315e066e77ed3a3315"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a19963aa8c39eb2315e066e77ed3a3315">ARENA_STATUS_USED</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a19963aa8c39eb2315e066e77ed3a3315"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae03ca78d943ffecf1b9e3dd2f0de051d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#ae03ca78d943ffecf1b9e3dd2f0de051d">ARENA_STATUS_UNDEFINED</a>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:ae03ca78d943ffecf1b9e3dd2f0de051d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3841db0165c9b74da1d60761394ff26a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a3841db0165c9b74da1d60761394ff26a">ARENA_TAG_NONE</a>&#160;&#160;&#160;-1</td></tr>
+<tr class="memdesc:a3841db0165c9b74da1d60761394ff26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">No tag placeholder.  <br /></td></tr>
 <tr class="separator:a3841db0165c9b74da1d60761394ff26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78d9c75a31ffd984a1165184a0387d8a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a78d9c75a31ffd984a1165184a0387d8a">ARENA_FAILURE</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a78d9c75a31ffd984a1165184a0387d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0ed91b25c305280f9b71295fe1a3360"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#ae0ed91b25c305280f9b71295fe1a3360">ARENA_SUCCESS</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ae0ed91b25c305280f9b71295fe1a3360"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#ae0ed91b25c305280f9b71295fe1a3360">ARENA_SUCCESS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ae0ed91b25c305280f9b71295fe1a3360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Success status.  <br /></td></tr>
 <tr class="separator:ae0ed91b25c305280f9b71295fe1a3360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78d9c75a31ffd984a1165184a0387d8a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a78d9c75a31ffd984a1165184a0387d8a">ARENA_FAILURE</a>&#160;&#160;&#160;-1</td></tr>
+<tr class="memdesc:a78d9c75a31ffd984a1165184a0387d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Failure status.  <br /></td></tr>
+<tr class="separator:a78d9c75a31ffd984a1165184a0387d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1401eed728b8651239ca7ae7532cac4e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a1401eed728b8651239ca7ae7532cac4e">ARENA_PTR</a>(arena,  block)&#160;&#160;&#160;((void*) ((char*) arena-&gt;mem + block-&gt;idx))</td></tr>
+<tr class="memdesc:a1401eed728b8651239ca7ae7532cac4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pointer from <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a>.  <br /></td></tr>
 <tr class="separator:a1401eed728b8651239ca7ae7532cac4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaad6996695161555281d4aa2fd9f0089"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#aaad6996695161555281d4aa2fd9f0089">ARENA_COPY</a>(arena,  dst,  src)&#160;&#160;&#160;memcpy(<a class="el" href="arena_8h.html#a1401eed728b8651239ca7ae7532cac4e">ARENA_PTR</a>(arena, dst), <a class="el" href="arena_8h.html#a1401eed728b8651239ca7ae7532cac4e">ARENA_PTR</a>(arena, src), src-&gt;size)</td></tr>
+<tr class="memdesc:aaad6996695161555281d4aa2fd9f0089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy data from src to dst.  <br /></td></tr>
 <tr class="separator:aaad6996695161555281d4aa2fd9f0089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a1f65dfaf0a520389a01a4f21b8849b32"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structarena__block__s.html">arena_block_s</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a></td></tr>
 <tr class="separator:a1f65dfaf0a520389a01a4f21b8849b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a85f5906e344461c7e4132401734d37df"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="arena_8h.html#a85f5906e344461c7e4132401734d37df">ArenaStatus</a> { <a class="el" href="arena_8h.html#a85f5906e344461c7e4132401734d37dfa840323aab23b86df7168826ebf600e4d">ARENA_STATUS_FREE</a> = 0
+, <a class="el" href="arena_8h.html#a85f5906e344461c7e4132401734d37dfa0799f2423fe589a2c4f3634fd1d65678">ARENA_STATUS_USED</a> = 1
+, <a class="el" href="arena_8h.html#a85f5906e344461c7e4132401734d37dfa8ec83a7c107776ceff96bedda1b4722c">ARENA_STATUS_UNDEFINED</a> = 2
+ }</td></tr>
+<tr class="memdesc:a85f5906e344461c7e4132401734d37df"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> status enum.  <a href="arena_8h.html#a85f5906e344461c7e4132401734d37df">More...</a><br /></td></tr>
+<tr class="separator:a85f5906e344461c7e4132401734d37df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -226,6 +236,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Copy data from src to dst. </p>
+
 </div>
 </div>
 <a id="a78d9c75a31ffd984a1165184a0387d8a" name="a78d9c75a31ffd984a1165184a0387d8a"></a>
@@ -235,10 +247,12 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ARENA_FAILURE&#160;&#160;&#160;0</td>
+          <td class="memname">#define ARENA_FAILURE&#160;&#160;&#160;-1</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Failure status. </p>
 
 </div>
 </div>
@@ -268,47 +282,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a363357413557f53937e9b510a085d07a" name="a363357413557f53937e9b510a085d07a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a363357413557f53937e9b510a085d07a">&#9670;&#160;</a></span>ARENA_STATUS_FREE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ARENA_STATUS_FREE&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae03ca78d943ffecf1b9e3dd2f0de051d" name="ae03ca78d943ffecf1b9e3dd2f0de051d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae03ca78d943ffecf1b9e3dd2f0de051d">&#9670;&#160;</a></span>ARENA_STATUS_UNDEFINED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ARENA_STATUS_UNDEFINED&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a19963aa8c39eb2315e066e77ed3a3315" name="a19963aa8c39eb2315e066e77ed3a3315"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19963aa8c39eb2315e066e77ed3a3315">&#9670;&#160;</a></span>ARENA_STATUS_USED</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ARENA_STATUS_USED&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Get pointer from <a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a>. </p>
 
 </div>
 </div>
@@ -319,10 +293,12 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ARENA_SUCCESS&#160;&#160;&#160;1</td>
+          <td class="memname">#define ARENA_SUCCESS&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Success status. </p>
 
 </div>
 </div>
@@ -338,6 +314,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>No tag placeholder. </p>
+
 </div>
 </div>
 <a id="a9dce98e1cd1cfcf07d7955343f80d526" name="a9dce98e1cd1cfcf07d7955343f80d526"></a>
@@ -351,6 +329,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Version of libarena. </p>
 
 </div>
 </div>
@@ -366,6 +346,28 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a85f5906e344461c7e4132401734d37df" name="a85f5906e344461c7e4132401734d37df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85f5906e344461c7e4132401734d37df">&#9670;&#160;</a></span>ArenaStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="arena_8h.html#a85f5906e344461c7e4132401734d37df">ArenaStatus</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="structArenaBlock.html" title="Arena block structure.">ArenaBlock</a> status enum. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a85f5906e344461c7e4132401734d37dfa840323aab23b86df7168826ebf600e4d" name="a85f5906e344461c7e4132401734d37dfa840323aab23b86df7168826ebf600e4d"></a>ARENA_STATUS_FREE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a85f5906e344461c7e4132401734d37dfa0799f2423fe589a2c4f3634fd1d65678" name="a85f5906e344461c7e4132401734d37dfa0799f2423fe589a2c4f3634fd1d65678"></a>ARENA_STATUS_USED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a85f5906e344461c7e4132401734d37dfa8ec83a7c107776ceff96bedda1b4722c" name="a85f5906e344461c7e4132401734d37dfa8ec83a7c107776ceff96bedda1b4722c"></a>ARENA_STATUS_UNDEFINED&#160;</td><td class="fielddoc"></td></tr>
+</table>
 
 </div>
 </div>
@@ -514,7 +516,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>1 on success. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ARENA_SUCCESS on success. </dd></dl>
 
 </div>
 </div>

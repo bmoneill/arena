@@ -5,13 +5,15 @@ var arena_8h =
     [ "ARENA_COPY", "arena_8h.html#aaad6996695161555281d4aa2fd9f0089", null ],
     [ "ARENA_FAILURE", "arena_8h.html#a78d9c75a31ffd984a1165184a0387d8a", null ],
     [ "ARENA_PTR", "arena_8h.html#a1401eed728b8651239ca7ae7532cac4e", null ],
-    [ "ARENA_STATUS_FREE", "arena_8h.html#a363357413557f53937e9b510a085d07a", null ],
-    [ "ARENA_STATUS_UNDEFINED", "arena_8h.html#ae03ca78d943ffecf1b9e3dd2f0de051d", null ],
-    [ "ARENA_STATUS_USED", "arena_8h.html#a19963aa8c39eb2315e066e77ed3a3315", null ],
     [ "ARENA_SUCCESS", "arena_8h.html#ae0ed91b25c305280f9b71295fe1a3360", null ],
     [ "ARENA_TAG_NONE", "arena_8h.html#a3841db0165c9b74da1d60761394ff26a", null ],
     [ "ARENA_VERSION", "arena_8h.html#a9dce98e1cd1cfcf07d7955343f80d526", null ],
     [ "ArenaBlock", "arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32", null ],
+    [ "ArenaStatus", "arena_8h.html#a85f5906e344461c7e4132401734d37df", [
+      [ "ARENA_STATUS_FREE", "arena_8h.html#a85f5906e344461c7e4132401734d37dfa840323aab23b86df7168826ebf600e4d", null ],
+      [ "ARENA_STATUS_USED", "arena_8h.html#a85f5906e344461c7e4132401734d37dfa0799f2423fe589a2c4f3634fd1d65678", null ],
+      [ "ARENA_STATUS_UNDEFINED", "arena_8h.html#a85f5906e344461c7e4132401734d37dfa8ec83a7c107776ceff96bedda1b4722c", null ]
+    ] ],
     [ "arena_alloc", "arena_8h.html#a15b40eab9e14e6c40209f811a2c6316a", null ],
     [ "arena_calloc", "arena_8h.html#a6c804971537a6f112e6a2936d5b85940", null ],
     [ "arena_collect_tag", "arena_8h.html#a596f20c8a28260a2c93c8ef56d0a1d57", null ],
