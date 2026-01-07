@@ -53,21 +53,14 @@ typedef enum {
  *
  * This structure represents a block of memory within an arena.
  * It contains information about the block's index, size, tag, status, and pointers to the next and previous blocks.
- *
- * @param idx    The index of the block within the arena.
- * @param size   The size of the block in bytes.
- * @param tag    An optional tag associated with the block.
- * @param status The status of the block (free, used, or undefined).
- * @param next   A pointer to the next block in the arena.
- * @param prev   A pointer to the previous block in the arena.
  */
 typedef struct arena_block_s {
-    size_t                idx;
-    size_t                size;
-    int                   tag;
-    ArenaStatus           status;
-    struct arena_block_s* next;
-    struct arena_block_s* prev;
+    size_t                idx; //!< The index of the block within the arena.
+    size_t                size; //!< The size of the block in bytes.
+    int                   tag; //!< An optional tag associated with the block.
+    ArenaStatus           status; //!< The status of the block (free, used, or undefined).
+    struct arena_block_s* next; //!< A pointer to the next block in the arena.
+    struct arena_block_s* prev; //!< A pointer to the previous block in the arena.
 } ArenaBlock;
 
 /**
@@ -77,23 +70,15 @@ typedef struct arena_block_s {
  * This structure represents an arena of memory.
  * It contains information about the arena's memory, pointer, head block, index, size, maximum
  * block count, and management status.
- *
- * @param mem       A pointer to the memory block of the arena.
- * @param ptr       A pointer to the current position in the memory block.
- * @param head      A pointer to the head block of the arena.
- * @param idx       The index of the current block within the arena.
- * @param size      The size of the memory block in bytes.
- * @param maxBlocks The maximum number of blocks that can be allocated in the arena.
- * @param managed   A flag indicating whether the arena is managed or not.
  */
 typedef struct {
-    void*       mem;
-    void*       ptr;
-    ArenaBlock* head;
-    size_t      idx;
-    size_t      size;
-    size_t      maxBlocks;
-    bool        managed;
+    void*       mem; //!< A pointer to the memory block of the arena.
+    void*       ptr; //!< A pointer to the current position in the memory block.
+    ArenaBlock* head; //!< A pointer to the head block of the arena.
+    size_t      idx; //!< The index of the current block within the arena.
+    size_t      size; //!< The size of the memory block in bytes.
+    size_t      maxBlocks; //!< The maximum number of blocks that can be allocated in the arena.
+    bool        managed; //!< A flag indicating whether the arena is managed or not.
 } Arena;
 
 /* Init/deinit/helpers */
