@@ -104,35 +104,30 @@ $(document).ready(function(){initNavTree('structArena.html',''); initResizable()
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a5f00e9b1b039412bb144bae39e66b97a"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#a5f00e9b1b039412bb144bae39e66b97a">mem</a></td></tr>
+<tr class="memdesc:a5f00e9b1b039412bb144bae39e66b97a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the memory block of the arena.  <br /></td></tr>
 <tr class="separator:a5f00e9b1b039412bb144bae39e66b97a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add9af9569af79ec26dd741fb226b38ba"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#add9af9569af79ec26dd741fb226b38ba">ptr</a></td></tr>
+<tr class="memdesc:add9af9569af79ec26dd741fb226b38ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the current position in the memory block.  <br /></td></tr>
 <tr class="separator:add9af9569af79ec26dd741fb226b38ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ca95a449ed7cb88f5e047a210a45023"><td class="memItemLeft" align="right" valign="top"><a class="el" href="arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32">ArenaBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#a8ca95a449ed7cb88f5e047a210a45023">head</a></td></tr>
+<tr class="memdesc:a8ca95a449ed7cb88f5e047a210a45023"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the head block of the arena.  <br /></td></tr>
 <tr class="separator:a8ca95a449ed7cb88f5e047a210a45023"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a103fe1fcacccda7d9cdacde44721faef"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#a103fe1fcacccda7d9cdacde44721faef">idx</a></td></tr>
+<tr class="memdesc:a103fe1fcacccda7d9cdacde44721faef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The index of the current block within the arena.  <br /></td></tr>
 <tr class="separator:a103fe1fcacccda7d9cdacde44721faef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a854352f53b148adc24983a58a1866d66"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#a854352f53b148adc24983a58a1866d66">size</a></td></tr>
+<tr class="memdesc:a854352f53b148adc24983a58a1866d66"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the memory block in bytes.  <br /></td></tr>
 <tr class="separator:a854352f53b148adc24983a58a1866d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af53000b4de740c75311f31c1fd96b786"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#af53000b4de740c75311f31c1fd96b786">maxBlocks</a></td></tr>
+<tr class="memdesc:af53000b4de740c75311f31c1fd96b786"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum number of blocks that can be allocated in the arena.  <br /></td></tr>
 <tr class="separator:af53000b4de740c75311f31c1fd96b786"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ff69266b2f44d218fdfe0c9d6950409"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArena.html#a8ff69266b2f44d218fdfe0c9d6950409">managed</a></td></tr>
+<tr class="memdesc:a8ff69266b2f44d218fdfe0c9d6950409"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flag indicating whether the arena is managed or not.  <br /></td></tr>
 <tr class="separator:a8ff69266b2f44d218fdfe0c9d6950409"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structArena.html" title="Arena structure.">Arena</a> structure. </p>
-<p>This structure represents an arena of memory. It contains information about the arena's memory, pointer, head block, index, size, maximum block count, and management status.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">mem</td><td>A pointer to the memory block of the arena. </td></tr>
-    <tr><td class="paramname">ptr</td><td>A pointer to the current position in the memory block. </td></tr>
-    <tr><td class="paramname">head</td><td>A pointer to the head block of the arena. </td></tr>
-    <tr><td class="paramname">idx</td><td>The index of the current block within the arena. </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the memory block in bytes. </td></tr>
-    <tr><td class="paramname">maxBlocks</td><td>The maximum number of blocks that can be allocated in the arena. </td></tr>
-    <tr><td class="paramname">managed</td><td>A flag indicating whether the arena is managed or not. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>This structure represents an arena of memory. It contains information about the arena's memory, pointer, head block, index, size, maximum block count, and management status. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a8ca95a449ed7cb88f5e047a210a45023" name="a8ca95a449ed7cb88f5e047a210a45023"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ca95a449ed7cb88f5e047a210a45023">&#9670;&#160;</a></span>head</h2>
@@ -145,6 +140,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A pointer to the head block of the arena. </p>
 
 </div>
 </div>
@@ -160,6 +157,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The index of the current block within the arena. </p>
+
 </div>
 </div>
 <a id="a8ff69266b2f44d218fdfe0c9d6950409" name="a8ff69266b2f44d218fdfe0c9d6950409"></a>
@@ -173,6 +172,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A flag indicating whether the arena is managed or not. </p>
 
 </div>
 </div>
@@ -188,6 +189,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The maximum number of blocks that can be allocated in the arena. </p>
+
 </div>
 </div>
 <a id="a5f00e9b1b039412bb144bae39e66b97a" name="a5f00e9b1b039412bb144bae39e66b97a"></a>
@@ -201,6 +204,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A pointer to the memory block of the arena. </p>
 
 </div>
 </div>
@@ -216,6 +221,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A pointer to the current position in the memory block. </p>
+
 </div>
 </div>
 <a id="a854352f53b148adc24983a58a1866d66" name="a854352f53b148adc24983a58a1866d66"></a>
@@ -229,6 +236,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The size of the memory block in bytes. </p>
 
 </div>
 </div>

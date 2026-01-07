@@ -101,16 +101,22 @@ $(document).ready(function(){initNavTree('structarena__block__s.html',''); initR
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a103fe1fcacccda7d9cdacde44721faef"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarena__block__s.html#a103fe1fcacccda7d9cdacde44721faef">idx</a></td></tr>
+<tr class="memdesc:a103fe1fcacccda7d9cdacde44721faef"><td class="mdescLeft">&#160;</td><td class="mdescRight">The index of the block within the arena.  <br /></td></tr>
 <tr class="separator:a103fe1fcacccda7d9cdacde44721faef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a854352f53b148adc24983a58a1866d66"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarena__block__s.html#a854352f53b148adc24983a58a1866d66">size</a></td></tr>
+<tr class="memdesc:a854352f53b148adc24983a58a1866d66"><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the block in bytes.  <br /></td></tr>
 <tr class="separator:a854352f53b148adc24983a58a1866d66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab34f2fc02b4a86bea93c68e1ec09d75"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarena__block__s.html#aab34f2fc02b4a86bea93c68e1ec09d75">tag</a></td></tr>
+<tr class="memdesc:aab34f2fc02b4a86bea93c68e1ec09d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">An optional tag associated with the block.  <br /></td></tr>
 <tr class="separator:aab34f2fc02b4a86bea93c68e1ec09d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbf2de760ac138ca8bdaae37c2660bc5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="arena_8h.html#a85f5906e344461c7e4132401734d37df">ArenaStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarena__block__s.html#adbf2de760ac138ca8bdaae37c2660bc5">status</a></td></tr>
+<tr class="memdesc:adbf2de760ac138ca8bdaae37c2660bc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The status of the block (free, used, or undefined).  <br /></td></tr>
 <tr class="separator:adbf2de760ac138ca8bdaae37c2660bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b6cbd98366907ecd5a0458c0c5acf18"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structarena__block__s.html">arena_block_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarena__block__s.html#a0b6cbd98366907ecd5a0458c0c5acf18">next</a></td></tr>
+<tr class="memdesc:a0b6cbd98366907ecd5a0458c0c5acf18"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the next block in the arena.  <br /></td></tr>
 <tr class="separator:a0b6cbd98366907ecd5a0458c0c5acf18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bce73f2cc35e19af10586dfadf49e1e"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structarena__block__s.html">arena_block_s</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structarena__block__s.html#a4bce73f2cc35e19af10586dfadf49e1e">prev</a></td></tr>
+<tr class="memdesc:a4bce73f2cc35e19af10586dfadf49e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pointer to the previous block in the arena.  <br /></td></tr>
 <tr class="separator:a4bce73f2cc35e19af10586dfadf49e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Field Documentation</h2>
@@ -126,6 +132,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The index of the block within the arena. </p>
+
 </div>
 </div>
 <a id="a0b6cbd98366907ecd5a0458c0c5acf18" name="a0b6cbd98366907ecd5a0458c0c5acf18"></a>
@@ -139,6 +147,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>A pointer to the next block in the arena. </p>
 
 </div>
 </div>
@@ -154,6 +164,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>A pointer to the previous block in the arena. </p>
+
 </div>
 </div>
 <a id="a854352f53b148adc24983a58a1866d66" name="a854352f53b148adc24983a58a1866d66"></a>
@@ -167,6 +179,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>The size of the block in bytes. </p>
 
 </div>
 </div>
@@ -182,6 +196,8 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>The status of the block (free, used, or undefined). </p>
+
 </div>
 </div>
 <a id="aab34f2fc02b4a86bea93c68e1ec09d75" name="aab34f2fc02b4a86bea93c68e1ec09d75"></a>
@@ -195,6 +211,8 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>An optional tag associated with the block. </p>
 
 </div>
 </div>
