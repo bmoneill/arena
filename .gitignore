@@ -1,5 +1,6 @@
 vgcore.*
 build
+docs/html
 
 # Editor stuff
 .clangd
