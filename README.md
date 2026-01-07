@@ -1,4 +1,4 @@
-# Arena {#mainpage}
+# Arena
 
 [![Build Status](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml)
 [![Doxygen Status](https://github.com/bmoneill/arena/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/arena)
