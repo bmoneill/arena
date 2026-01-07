@@ -481,7 +481,7 @@ void* arena_get_ptr_by_tag(Arena* arena, int tag, int n) {
  *
  * @return String containing the version information.
  */
-const char* arena_version(void) { return LIBARENA_VERSION; }
+const char* arena_version(void) { return ARENA_VERSION; }
 
 /**
  * @brief Finds an empty (undefined) block in the arena's block list.

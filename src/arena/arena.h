@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifndef LIBARENA_VERSION
-#define LIBARENA_VERSION "unknown"
+#ifndef ARENA_VERSION
+#define ARENA_VERSION "unknown"
 #endif
 
 #define ARENA_STATUS_FREE      0
