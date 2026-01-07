@@ -34,7 +34,7 @@ void test_arena_init_and_destroy_managed(void) {
 
     int result = arena_destroy(arena);
     arena      = NULL;
-    TEST_ASSERT_EQUAL(1, result);
+    TEST_ASSERT_EQUAL(ARENA_SUCCESS, result);
 }
 
 void test_arena_init_and_destroy_unmanaged(void) {
@@ -48,7 +48,7 @@ void test_arena_init_and_destroy_unmanaged(void) {
     TEST_ASSERT_NOT_NULL(arena->ptr);
 
     int result = arena_destroy(arena);
-    TEST_ASSERT_EQUAL(1, result);
+    TEST_ASSERT_EQUAL(ARENA_SUCCESS, result);
     arena = NULL;
 }
 

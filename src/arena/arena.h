@@ -7,17 +7,44 @@
 #include <string.h>
 
 #ifndef ARENA_VERSION
+/**
+ * @brief Version of libarena
+ */
 #define ARENA_VERSION "unknown"
 #endif
 
-#define ARENA_STATUS_FREE      0
-#define ARENA_STATUS_USED      1
-#define ARENA_STATUS_UNDEFINED 2
-#define ARENA_TAG_NONE         -1
-#define ARENA_FAILURE          0
-#define ARENA_SUCCESS          1
+/**
+ * @brief ArenaBlock status enum.
+ */
+typedef enum {
+    ARENA_STATUS_FREE      = 0,
+    ARENA_STATUS_USED      = 1,
+    ARENA_STATUS_UNDEFINED = 2
+} ArenaStatus;
 
-#define ARENA_PTR(arena, block)     ((void*) ((char*) arena->mem + block->idx))
+/**
+ * @brief No tag placeholder.
+ */
+#define ARENA_TAG_NONE -1
+
+/**
+ * @brief Success status.
+ */
+#define ARENA_SUCCESS 0
+
+/**
+ * @brief Failure status.
+ */
+#define ARENA_FAILURE -1
+
+/**
+ * @brief Get pointer from ArenaBlock
+ */
+#define ARENA_PTR(arena, block) ((void*) ((char*) arena->mem + block->idx))
+
+/**
+ * @brief Copy data from src to dst
+ */
 #define ARENA_COPY(arena, dst, src) memcpy(ARENA_PTR(arena, dst), ARENA_PTR(arena, src), src->size)
 
 /**
@@ -38,7 +65,7 @@ typedef struct arena_block_s {
     size_t                idx;
     size_t                size;
     int                   tag;
-    int                   status;
+    ArenaStatus           status;
     struct arena_block_s* next;
     struct arena_block_s* prev;
 } ArenaBlock;

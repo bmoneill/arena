@@ -62,7 +62,7 @@ Arena* arena_init(size_t size, size_t maxBlocks, int managed) {
  * @brief Destroys the given Arena, freeing all associated memory.
  *
  * @param arena Pointer to the Arena structure to destroy.
- * @return 1 on success.
+ * @return ARENA_SUCCESS on success.
  */
 int arena_destroy(Arena* arena) {
     if (arena->mem) {
@@ -74,7 +74,7 @@ int arena_destroy(Arena* arena) {
     }
 
     free(arena);
-    return 1;
+    return ARENA_SUCCESS;
 }
 
 /**
