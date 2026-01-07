@@ -269,8 +269,6 @@ void* arena_calloc(Arena* arena, size_t num, size_t size) {
 /**
  * @brief Reallocates a block of memory to a new size within the arena.
  *
- * This function can only be used if the arena is in managed mode.
- *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the existing memory block.
  * @param size New size for the memory block.
@@ -278,6 +276,16 @@ void* arena_calloc(Arena* arena, size_t num, size_t size) {
  */
 void* arena_realloc(Arena* arena, void* p, size_t size) {
     if (!arena->managed) {
+        if (p == (void*) (arena + arena->idx)) {
+            return p;
+        } else {
+            void* newP = arena_alloc(arena, size);
+            if (newP != NULL) {
+                memcpy(newP, p, size);
+            }
+            return newP;
+        }
+
         return NULL;
     }
 
