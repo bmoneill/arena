@@ -26,7 +26,7 @@ be managed internally.
 
 ```shell
 # build library
-cmake -S . -B build -DTARGET_GROUP=all
+cmake -S . -B build
 cmake --build build
 
 # install
@@ -37,7 +37,7 @@ cmake --install build
 
 ```shell
 git submodule update
-cmake -S . -B build -DTARGET_GROUP=test
+cmake -S . -B build -DTEST=ON
 cmake --build build
 cd build
 ctest --verbose
