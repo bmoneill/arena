@@ -1,8 +1,29 @@
-# Arena
+<div align="center">
+    <h1><b>arena</b></h1>
+    <h4>An Arena memory manager</h4>
+    <a href="https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml">
+        <img alt="Build Status" src="https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main" />
+    </a>
+    <a href="https://bmoneill.github.io/arena">
+        <img alt="Doxygen Status" src="https://github.com/bmoneill/arena/actions/workflows/doxygen.yml/badge.svg?branch=main" />
+    </a>
+    <a href="https://github.com/bmoneill/arena/actions/workflows/clang-format.yml">
+    <img alt="Clang-format status" src="https://github.com/bmoneill/arena/actions/workflows/clang-format.yml/badge.svg?branch=main" />
+    </a>
+</div>
 
-[![Build Status](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml)
-[![Doxygen Status](https://github.com/bmoneill/arena/actions/workflows/doxygen.yml/badge.svg?branch=main)](https://bmoneill.github.io/arena)
-[![Clang-format status](https://github.com/bmoneill/arena/actions/workflows/clang-format.yml/badge.svg?branch=main)](https://github.com/bmoneill/arena/actions/workflows/clang-format.yml)
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Building](#building)
+- [Testing](#testing)
+- [Library Documentation](#documentation)
+- [Further Reading](#further-reading)
+- [Bugs](#bugs)
+- [License](#license)
+
+## Overview
 
 This is an Arena memory manager with basic bookkeeping and support for basic
 memory management functions (malloc, calloc, realloc, memcpy, and free). Arena
@@ -12,9 +33,9 @@ important. Arenas can also be easily dumped for debugging.
 
 ## Features
 
-* Bookkeeping: Block metadata is internally stored. When a block is freed, that
+- Bookkeeping: Block metadata is internally stored. When a block is freed, that
   memory may be used by a newly allocated block.
-* Tagging: Each block can have an assigned integer tag. It is possible to find a
+- Tagging: Each block can have an assigned integer tag. It is possible to find a
   block by its tag or free all blocks with a given tag.
 
 Bookkeeping can be disabled for better performance, but tags will not work. When
@@ -49,8 +70,8 @@ ctest --verbose
 
 ## Further Reading
 
-* [Fallout's Memory Model](https://youtu.be/6kB_fko6SIg)
-* [Untangling Lifetimes: The Arena Allocator](https://www.rfleury.com/p/untangling-lifetimes-the-arena-allocator)
+- [Fallout's Memory Model](https://youtu.be/6kB_fko6SIg)
+- [Untangling Lifetimes: The Arena Allocator](https://www.rfleury.com/p/untangling-lifetimes-the-arena-allocator)
 
 ## Bugs
 
