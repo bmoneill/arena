@@ -103,6 +103,6 @@ void        arena_collect_tag(Arena* arena, int tag);
 ArenaBlock* arena_get_block_by_tag(Arena* arena, int tag, int n);
 void*       arena_get_ptr_by_tag(Arena* arena, int tag, int n);
 
-const char* arena_version();
+const char* arena_version(void);
 
 #endif
