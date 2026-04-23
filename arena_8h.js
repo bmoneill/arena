@@ -30,5 +30,5 @@ var arena_8h =
     [ "arena_print", "arena_8h.html#a66760de487a939e3f4bdbd2f71ff1ede", null ],
     [ "arena_realloc", "arena_8h.html#a6ac18ec57bb8d8422d5bd9fb919f18ab", null ],
     [ "arena_set_tag", "arena_8h.html#ab38883544a6101a5a77a95db3aa5063f", null ],
-    [ "arena_version", "arena_8h.html#ae30f72a4ab1b970d10a1848ecee7fa24", null ]
+    [ "arena_version", "arena_8h.html#ac5653fdcfcb45582e491b9034bc4afab", null ]
 ];

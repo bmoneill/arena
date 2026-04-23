@@ -29,7 +29,7 @@ var searchData=
   ['arena_5fsuccess_26',['ARENA_SUCCESS',['../arena_8h.html#ae0ed91b25c305280f9b71295fe1a3360',1,'arena.h']]],
   ['arena_5ftag_5fnone_27',['ARENA_TAG_NONE',['../arena_8h.html#a3841db0165c9b74da1d60761394ff26a',1,'arena.h']]],
   ['arena_5fversion_28',['ARENA_VERSION',['../arena_8h.html#a9dce98e1cd1cfcf07d7955343f80d526',1,'arena.h']]],
-  ['arena_5fversion_29',['arena_version',['../arena_8c.html#ac5653fdcfcb45582e491b9034bc4afab',1,'arena_version(void):&#160;arena.c'],['../arena_8h.html#ae30f72a4ab1b970d10a1848ecee7fa24',1,'arena_version():&#160;arena.c']]],
+  ['arena_5fversion_29',['arena_version',['../arena_8c.html#ac5653fdcfcb45582e491b9034bc4afab',1,'arena_version(void):&#160;arena.c'],['../arena_8h.html#ac5653fdcfcb45582e491b9034bc4afab',1,'arena_version(void):&#160;arena.c']]],
   ['arenablock_30',['ArenaBlock',['../structArenaBlock.html',1,'ArenaBlock'],['../arena_8h.html#a1f65dfaf0a520389a01a4f21b8849b32',1,'ArenaBlock():&#160;arena.h']]],
   ['arenastatus_31',['ArenaStatus',['../arena_8h.html#a85f5906e344461c7e4132401734d37df',1,'arena.h']]]
 ];
