@@ -45,6 +45,13 @@ be managed internally.
 
 ## Building
 
+### Requirements
+
+- [Cmake](https://cmake.org/) 3.31.6 or higher
+- A C99 compatible compiler (e.g. clang, gcc)
+
+### Linux / macOS
+
 ```shell
 # build library
 cmake -S . -B build
@@ -55,6 +62,8 @@ cmake --install build
 ```
 
 ## Testing
+
+### Linux / macOS
 
 ```shell
 git submodule update
