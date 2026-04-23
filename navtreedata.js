@@ -29,12 +29,17 @@ var NAVTREE =
       [ "Table of Contents", "index.html#autotoc_md0", null ],
       [ "Overview", "index.html#autotoc_md1", null ],
       [ "Features", "index.html#autotoc_md2", null ],
-      [ "Building", "index.html#autotoc_md3", null ],
-      [ "Testing", "index.html#autotoc_md4", null ],
-      [ "Documentation", "index.html#autotoc_md5", null ],
-      [ "Further Reading", "index.html#autotoc_md6", null ],
-      [ "Bugs", "index.html#autotoc_md7", null ],
-      [ "License", "index.html#autotoc_md8", null ],
+      [ "Building", "index.html#autotoc_md3", [
+        [ "Requirements", "index.html#autotoc_md4", null ],
+        [ "Linux / macOS", "index.html#autotoc_md5", null ]
+      ] ],
+      [ "Testing", "index.html#autotoc_md6", [
+        [ "Linux / macOS", "index.html#autotoc_md7", null ]
+      ] ],
+      [ "Documentation", "index.html#autotoc_md8", null ],
+      [ "Further Reading", "index.html#autotoc_md9", null ],
+      [ "Bugs", "index.html#autotoc_md10", null ],
+      [ "License", "index.html#autotoc_md11", null ],
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],
       [ "Data Fields", "functions.html", [
