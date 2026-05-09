@@ -372,7 +372,7 @@ void* arena_realloc(Arena* arena, void* p, size_t size) {
  *
  * @param arena Pointer to the Arena structure.
  * @param p Pointer to the memory block to free.
- * @return 1 on success, 0 on failure.
+ * @return ARENA_SUCCESS on success, ARENA_FAILURE on failure.
  */
 int arena_free(Arena* arena, void* p) {
     if (!arena->managed) {
