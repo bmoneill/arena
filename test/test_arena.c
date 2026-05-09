@@ -294,7 +294,7 @@ void test_arena_clear_managed(void) {
     TEST_ASSERT_EQUAL(ARENA_SUCCESS, result);
 
     TEST_ASSERT_EQUAL(0, arena->head[0].idx);
-    TEST_ASSERT_EQUAL(0, arena->head[0].size);
+    TEST_ASSERT_EQUAL(arena->size, arena->head[0].size);
     TEST_ASSERT_EQUAL(ARENA_TAG_NONE, arena->head[0].tag);
     TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, arena->head[0].status);
 
