@@ -59,6 +59,34 @@ Arena* arena_init(size_t size, size_t maxBlocks, int managed) {
 }
 
 /**
+ * @brief Clears the arena.
+ *
+ * This function clears the arena.
+ * - If the arena is managed, it resets all blocks to their initial state.
+ * - If the arena is unmanaged, it simply resets the pointer to the start of the memory block.
+ *
+ * @param arena Pointer to the Arena structure to clear.
+ * @return ARENA_SUCCESS.
+ */
+int arena_clear(Arena* arena) {
+    if (arena->managed) {
+        for (size_t i = 0; i < arena->maxBlocks; i++) {
+            arena->head[i].idx    = -1;
+            arena->head[i].size   = 0;
+            arena->head[i].tag    = ARENA_TAG_NONE;
+            arena->head[i].status = ARENA_STATUS_UNDEFINED;
+        }
+        arena->head[0].idx    = 0;
+        arena->head[0].size   = arena->size;
+        arena->head[0].tag    = ARENA_TAG_NONE;
+        arena->head[0].status = ARENA_STATUS_FREE;
+        return ARENA_SUCCESS;
+    }
+    arena->ptr = arena->mem;
+    return ARENA_SUCCESS;
+}
+
+/**
  * @brief Destroys the given Arena, freeing all associated memory.
  *
  * @param arena Pointer to the Arena structure to destroy.
