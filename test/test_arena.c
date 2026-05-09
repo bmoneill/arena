@@ -292,7 +292,13 @@ void test_arena_clear_managed(void) {
 
     int result = arena_clear(arena);
     TEST_ASSERT_EQUAL(ARENA_SUCCESS, result);
-    for (size_t i = 0; i < arena->maxBlocks; i++) {
+
+    TEST_ASSERT_EQUAL(0, arena->head[0].idx);
+    TEST_ASSERT_EQUAL(0, arena->head[i].size);
+    TEST_ASSERT_EQUAL(ARENA_TAG_NONE, arena->head[i].tag);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, arena->head[i].status);
+
+    for (size_t i = 1; i < arena->maxBlocks; i++) {
         TEST_ASSERT_EQUAL(-1, arena->head[i].idx);
         TEST_ASSERT_EQUAL(0, arena->head[i].size);
         TEST_ASSERT_EQUAL(ARENA_TAG_NONE, arena->head[i].tag);
