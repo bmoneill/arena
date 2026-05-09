@@ -16,6 +16,7 @@ var arena_8h =
     ] ],
     [ "arena_alloc", "arena_8h.html#a15b40eab9e14e6c40209f811a2c6316a", null ],
     [ "arena_calloc", "arena_8h.html#a6c804971537a6f112e6a2936d5b85940", null ],
+    [ "arena_clear", "arena_8h.html#a19e2dea28e1ee9b13cb681e13e2d0df5", null ],
     [ "arena_collect_tag", "arena_8h.html#a596f20c8a28260a2c93c8ef56d0a1d57", null ],
     [ "arena_destroy", "arena_8h.html#a27747a58d8ad76b795460d8c6c3f08c5", null ],
     [ "arena_dump", "arena_8h.html#a2ddb2c4841b59460f96a8f9094bb38ce", null ],
