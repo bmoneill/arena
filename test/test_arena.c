@@ -280,3 +280,33 @@ void test_arena_collect_tag(void) {
     TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
     TEST_ASSERT_NOT_EQUAL(ARENA_STATUS_USED, block3->status);
 }
+
+void test_arena_clear_managed(void) {
+    INIT_MANAGED(1024, 10);
+    ArenaBlock* block1 = arena_alloc(arena, 128);
+    ArenaBlock* block2 = arena_alloc(arena, 256);
+    TEST_ASSERT_NOT_NULL(block1);
+    TEST_ASSERT_NOT_NULL(block2);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block1->status);
+    TEST_ASSERT_EQUAL(ARENA_STATUS_USED, block2->status);
+
+    int result = arena_clear(arena);
+    TEST_ASSERT_EQUAL(ARENA_SUCCESS, result);
+    for (size_t i = 0; i < arena->maxBlocks; i++) {
+        TEST_ASSERT_EQUAL(-1, arena->head[i].idx);
+        TEST_ASSERT_EQUAL(0, arena->head[i].size);
+        TEST_ASSERT_EQUAL(ARENA_TAG_NONE, arena->head[i].tag);
+        TEST_ASSERT_EQUAL(ARENA_STATUS_FREE, arena->head[i].status);
+    }
+}
+
+void test_arena_clear_unmanaged(void) {
+    INIT_UNMANAGED(1024);
+    void* ptr = arena_malloc(arena, 128);
+    TEST_ASSERT_NOT_NULL(ptr);
+    TEST_ASSERT_EQUAL((char*) arena->mem + 128, arena->ptr);
+
+    int result = arena_clear(arena);
+    TEST_ASSERT_EQUAL(ARENA_SUCCESS, result);
+    TEST_ASSERT_EQUAL(arena->mem, arena->ptr);
+}
