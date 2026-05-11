@@ -1,7 +1,6 @@
 #ifndef ARENA_H
 #define ARENA_H
 
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -78,7 +77,7 @@ typedef struct {
     size_t      idx; //!< The index of the current block within the arena.
     size_t      size; //!< The size of the memory block in bytes.
     size_t      maxBlocks; //!< The maximum number of blocks that can be allocated in the arena.
-    bool        managed; //!< A flag indicating whether the arena is managed or not.
+    int         managed; //!< A flag indicating whether the arena is managed or not.
 } Arena;
 
 /* Init/deinit/helpers */
