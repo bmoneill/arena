@@ -1,22 +1,23 @@
-name: CI
-
-on:
-  push:
-    branches: ["main", "testing"]
-  pull_request:
-    branches: ["main"]
+name: macOS CI
+on: [push, pull_request]
 
 env:
   BUILD_TYPE: Debug
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
+
+      - name: Cache external dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/build/external
+          key: ${{ runner.os }}-external-${{ hashFiles('external/CMakeLists.txt', 'external/raylib/CMakeLists.txt', 'external/raylib/src/CMakeLists.txt') }}
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DTEST=ON
@@ -31,7 +32,7 @@ jobs:
           path: ${{ github.workspace }}/build
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs: build
 
     steps:
@@ -47,4 +48,4 @@ jobs:
         run: chmod -R +x ${{ github.workspace }}/build
 
       - name: Run tests
-        run: ${{ github.workspace }}/build/test/arena_tests
+        run: ctest --test-dir ${{github.workspace}}/build --output-on-failure --verbose

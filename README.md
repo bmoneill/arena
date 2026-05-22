@@ -1,8 +1,14 @@
 <div align="center">
     <h1><b>arena</b></h1>
     <h4>An Arena memory manager</h4>
-    <a href="https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml">
-        <img alt="Build Status" src="https://github.com/bmoneill/arena/actions/workflows/cmake-single-platform.yml/badge.svg?branch=main" />
+    <a href="https://github.com/bmoneill/arena/actions/workflows/ci-linux.yml">
+        <img alt="Linux Build Status" src="https://github.com/bmoneill/arena/actions/workflows/ci-linux.yml/badge.svg?branch=main" />
+    </a>
+    <a href="https://github.com/bmoneill/arena/actions/workflows/ci-macos.yml">
+        <img alt="macOS Build Status" src="https://github.com/bmoneill/arena/actions/workflows/ci-macos.yml/badge.svg?branch=main" />
+    </a>
+    <a href="https://github.com/bmoneill/arena/actions/workflows/ci-windows.yml">
+        <img alt="Windows Build Status" src="https://github.com/bmoneill/arena/actions/workflows/ci-windows.yml/badge.svg?branch=main" />
     </a>
     <a href="https://bmoneill.github.io/arena">
         <img alt="Doxygen Status" src="https://github.com/bmoneill/arena/actions/workflows/doxygen.yml/badge.svg?branch=main" />
