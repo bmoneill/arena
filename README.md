@@ -16,6 +16,7 @@
     <a href="https://github.com/bmoneill/arena/actions/workflows/clang-format.yml">
     <img alt="Clang-format status" src="https://github.com/bmoneill/arena/actions/workflows/clang-format.yml/badge.svg?branch=main" />
     </a>
+    <a href="https://oneill.sh/coverage/arena"><img src="https://oneill.sh/coverage/arena" alt="Coverage" /></a>
 </div>
 
 ## Table of Contents
