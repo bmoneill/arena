@@ -166,28 +166,35 @@ ArenaBlock* arena_free_block(Arena* arena, ArenaBlock* block) {
         return NULL;
     }
 
-    ArenaBlock* tmp = NULL;
-    block->status   = ARENA_STATUS_FREE;
-    block->tag      = ARENA_TAG_NONE;
+    ArenaBlock* tmp1 = NULL;
+    ArenaBlock* tmp2 = NULL;
+    block->status    = ARENA_STATUS_FREE;
+    block->tag       = ARENA_TAG_NONE;
 
     if (block->next != NULL && block->next->status == ARENA_STATUS_FREE) {
         block->size += block->next->size;
-        tmp               = block->next;
-        block->next       = block->next->next;
-        block->next->prev = block;
+        tmp1        = block->next;
+        block->next = block->next->next;
+        if (block->next) {
+            block->next->prev = block;
+        }
     }
 
     if (block->prev != NULL && block->prev->status == ARENA_STATUS_FREE) {
         block->idx = block->prev->idx;
         block->size += block->prev->size;
-
-        tmp               = block->prev;
-        block->prev       = block->prev->prev;
-        block->prev->next = block;
+        tmp2        = block->prev;
+        block->prev = block->prev->prev;
+        if (block->prev) {
+            block->prev->next = block;
+        }
     }
 
-    if (tmp) {
-        tmp->status = ARENA_STATUS_UNDEFINED;
+    if (tmp1) {
+        tmp1->status = ARENA_STATUS_UNDEFINED;
+    }
+    if (tmp2) {
+        tmp2->status = ARENA_STATUS_UNDEFINED;
     }
     return block->next;
 }
@@ -239,14 +246,24 @@ ArenaBlock* arena_alloc(Arena* arena, size_t size) {
                 ArenaBlock* oldNext = current->next;
                 ArenaBlock* newNext;
 
-                newNext         = arena_find_empty_block(arena);
-                newNext->next   = oldNext;
+                newNext = arena_find_empty_block(arena);
+
+                // Only relink if newNext is not already sitting in the right spot.
+                // When oldNext == newNext the block is already linked correctly;
+                // overwriting its ->next pointer would create a self-loop.
+                if (newNext != oldNext) {
+                    newNext->next = oldNext;
+                    newNext->prev = current;
+                    current->next = newNext;
+                    if (oldNext) {
+                        oldNext->prev = newNext;
+                    }
+                }
+
                 newNext->idx    = current->idx + size;
                 newNext->size   = current->size - size;
                 newNext->status = ARENA_STATUS_FREE;
                 newNext->tag    = ARENA_TAG_NONE;
-
-                current->next   = newNext;
                 current->size   = size;
             }
             current->status = ARENA_STATUS_USED;
@@ -313,7 +330,7 @@ void* arena_realloc(Arena* arena, void* p, size_t size) {
     if (!arena->managed) {
         void* newP = arena_malloc(arena, size);
         if (newP != NULL) {
-            memcpy(newP, p, size);
+            memmove(newP, p, size);
         }
         return newP;
     }
@@ -357,7 +374,10 @@ void* arena_realloc(Arena* arena, void* p, size_t size) {
         return p;
     } else {
         // New size greater than old size
-        ArenaBlock* newBlock = arena_malloc(arena, size);
+        ArenaBlock* newBlock = arena_alloc(arena, size);
+        if (!newBlock) {
+            return NULL;
+        }
         ARENA_COPY(arena, newBlock, block);
         arena_free_block(arena, block);
         return ARENA_PTR(arena, newBlock);
