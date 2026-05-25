@@ -54,10 +54,11 @@ be managed internally.
 
 ### Requirements
 
+- A Unix-like environment (e.g. Linux, macOS, WSL, MinGW)
 - [Cmake](https://cmake.org/) 3.31.6 or higher
 - A C99 compatible compiler (e.g. clang, gcc)
 
-### Linux / macOS
+### Steps
 
 ```shell
 # build library
@@ -69,8 +70,6 @@ cmake --install build
 ```
 
 ## Testing
-
-### Linux / macOS
 
 ```shell
 git submodule update
